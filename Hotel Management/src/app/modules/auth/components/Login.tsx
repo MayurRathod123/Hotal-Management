@@ -42,12 +42,15 @@ export function Login() {
       setLoading(true)
       try {
         const {data: auth} = await login(values.email, values.password)
+        // console.log(auth)
         if(!auth.data){
           throw('data not found')
         }
-        saveAuth(auth)
-        // const {data: user} = await getUserByToken(auth.api_token)
+        saveAuth(auth.data)
+        // const {data: user} = await getUserByToken(auth.authToken)
         setCurrentUser(auth.data)
+        
+      setLoading(false)
       } catch (error) {
         console.error(error)
         saveAuth(undefined)

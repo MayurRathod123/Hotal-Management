@@ -10,23 +10,31 @@ export function AsideMenuMain() {
 
   return (
     <>
-      <AsideMenuItem
+      {/* <AsideMenuItem
         to='/dashboard'
-        icon='/media/icons/duotune/art/art002.svg'
+        icon='/media/icons/duotune/general/gen025.svg'
         title={intl.formatMessage({id: 'MENU.DASHBOARD'})}
         fontIcon='bi-app-indicator'
-      />
+      /> */}
       <div className='menu-item'>
         <div className='menu-content pt-8 pb-2'>
-          <span className='menu-section text-muted text-uppercase fs-8 ls-1'>User Management</span>
+          <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Hotel Management</span>
         </div>
       </div>
-      <AsideMenuItem
-        to='/apps/user-management/users'
+      <AsideMenuItemWithSub to='/hotel/' title='Hotel' hasBullet={true}>
+     
+        <AsideMenuItem to='/hotel-management' title='Hotel Management' hasBullet={true}/>
+      </AsideMenuItemWithSub>
+
+      <AsideMenuItemWithSub to='/car/' title='Car' hasBullet={true}>
+        <AsideMenuItem to='/car-management' title='Car Management' hasBullet={true}/>
+      </AsideMenuItemWithSub>
+      {/* <AsideMenuItem
+        to='/user-management/users'
         icon='/media/icons/duotune/general/gen051.svg'
         title='User management'
         fontIcon='bi-layers'
-      />
+      /> */}
     </>
   )
 }

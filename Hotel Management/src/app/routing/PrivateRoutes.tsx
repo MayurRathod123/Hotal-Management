@@ -14,13 +14,16 @@ const PrivateRoutes = () => {
   const AccountPage = lazy(() => import('../modules/accounts/AccountPage'))
   const WidgetsPage = lazy(() => import('../modules/widgets/WidgetsPage'))
   const ChatPage = lazy(() => import('../modules/apps/chat/ChatPage'))
-  const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
+  // const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
+  const HotelPage = lazy(() => import('../modules/apps/hotel management/HotelPage'))
+  const CarPage = lazy(() => import('../modules/apps/car management/CarPage'))
+
 
   return (
     <Routes>
       <Route element={<MasterLayout />}>
         {/* Redirect to Dashboard after success login/registartion */}
-        <Route path='auth/*' element={<Navigate to='/dashboard' />} />
+        <Route path='auth/*' element={<Navigate to='/hotel-management/hotel' />} />
         {/* Pages */}
         <Route path='dashboard' element={<DashboardWrapper />} />
         <Route path='builder' element={<BuilderPageWrapper />} />
@@ -66,14 +69,32 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
-        <Route
-          path='apps/user-management/*'
+        {/* <Route
+          path='/user-management/*'
           element={
             <SuspensedView>
               <UsersPage />
             </SuspensedView>
           }
+          /> */}
+        <Route
+          path='/hotel-management/*'
+          element={
+            <SuspensedView>
+              <HotelPage />
+            </SuspensedView>
+          }
         />
+          
+        <Route
+          path='/car-management/*'
+          element={
+            <SuspensedView>
+              <CarPage />
+            </SuspensedView>
+          }
+        />
+
         {/* Page Not Found */}
         <Route path='*' element={<Navigate to='/error/404' />} />
       </Route>
