@@ -4,12 +4,13 @@ import {InfoCell} from './InfoCell'
 import {ActionsCell} from './ActionsCell'
 import {CustomHeader} from './CustomHeader'
 import {User} from '../../core/_models'
+import { truncateSync } from 'fs'
 
 const tableColumns: ReadonlyArray<Column<User>> = [
    {
     Header: (props) => <CustomHeader tableProps={props} title='Name' className='min-w-125px' />,
-    id: 'name',
-    Cell: ({...props}) => <p>{props.data[props.row.index].name}</p>,
+    id: 'hotel_name',
+    Cell: ({...props}) => <p>{props.data[props.row.index].hotel_name}</p>,
   },
   {
     Header: (props) => <CustomHeader tableProps={props} title='Price' className='min-w-125px' />,
@@ -18,13 +19,13 @@ const tableColumns: ReadonlyArray<Column<User>> = [
   },
   {
     Header: (props) => <CustomHeader tableProps={props} title='Stars' className='min-w-125px' />,
-    id: 'stars',
-    Cell: ({...props}) => <p>{props.data[props.row.index].stars}</p>,
+    id: 'star',
+    Cell: ({...props}) => <p>{props.data[props.row.index].star}</p>,
   },
   {
     Header: (props) => <CustomHeader tableProps={props} title='status' className='min-w-125px' />,
     id: 'status',
-    Cell: ({...props}) => {return props.data[props.row.index].status == 0 ? <span className="badge badge-warning">Inactive</span> : <span className="badge badge-success">Active</span>},
+    Cell: ({...props}) => {return props.data[props.row.index].status == true ? <span className="badge badge-warning">InActive</span> : <span className="badge badge-success">Active</span>},
   },
   {
     Header: (props) => (

@@ -2,33 +2,33 @@ import {FC, useState} from 'react'
 import * as Yup from 'yup'
 import {useFormik} from 'formik'
 import {isNotEmpty} from '../../../../../../_metronic/helpers'
-import {HotelDataModel, initial, } from '../core/_models'
+import {StateDataModel, initial, } from '../core/_models'
 import clsx from 'clsx'
-import {useListView} from '../core/ListViewProvider'
-import {ListLoading} from '../components/loading/ListLoading'
-import {createHotelData, updateHotelData,} from '../core/_requests'
-import {useQueryResponse} from '../core/QueryResponseProvider'
+import {useListView} from '../core/StateListViewProvider'
+// import {ListLoading} from '../components/loading/ListLoading'
+import {createState, updateState,} from '../core/_requests'
+import {useQueryResponse} from '../core/StateQueryResponseProvider'
 
 type Props = {
   isUserLoading: boolean
-  user:HotelDataModel
+  user:StateDataModel
 }
 
-const editHotelSchema = Yup.object().shape({
-    hotel_name: Yup.string()
+const editStateSchema = Yup.object().shape({
+    stateName: Yup.string()
     .min(1, 'Minimum 1 symbols')
     .max(50, 'Maximum 50 symbols')
-    .required('Hotel Name is required'),
+    .required('State Name is required'),
 
-    price: Yup.number()
-    .integer("This field should contain an integer")
-    .required().typeError("The field must contain a number"),
+    // price: Yup.number()
+    // .integer("This field should contain an integer")
+    // .required().typeError("The field must contain a number"),
 
-    star: Yup.number()
-    .integer("This field should contain an integer")
-    .required().typeError("The field must contain a number"),
+    // stars: Yup.number()
+    // .integer("This field should contain an integer")
+    // .required().typeError("The field must contain a number"),
    
-    hotelDescription: Yup.string()
+    stateDescription: Yup.string()
     .min(1, 'Minimum 1 symbols')
     .max(500, 'Maximum 500 symbols')
     .required('Description is required'),
@@ -38,12 +38,12 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
   const {setItemIdForUpdate} = useListView()
   const {refetch} = useQueryResponse()
 
-  const [userForEdit] = useState<HotelDataModel>({
+  const [userForEdit] = useState<StateDataModel>({
     ...user,
-    hotel_name: user.hotel_name || initial.hotel_name,
-    price: user.price || initial.price,
-    star: user.star || initial.star,
-    hotelDescription: user.hotelDescription || initial.hotelDescription,
+    stateName: user.stateName || initial.stateName,
+    // price: user.price || initial.price,
+    // stars: user.stars || initial.stars,
+    stateDescription: user.stateDescription || initial.stateDescription,
     status: user.status || initial.status,
   })
 
@@ -58,15 +58,15 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
 
   const formik = useFormik({
     initialValues: userForEdit,
-    validationSchema: editHotelSchema,
+    validationSchema: editStateSchema,
     onSubmit: async (values, {setSubmitting}) => {
       setSubmitting(true)
       try {
-        values.status = true
+        values.status = status
         if (isNotEmpty(values.id)) {
-          await updateHotelData(values)
+          await updateState(values)
         } else {
-          await createHotelData(values)
+          await createState(values)
         }
       } catch (ex) {
         console.error(ex)
@@ -92,33 +92,33 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
           data-kt-scroll-offset='300px'
         >
           <div className='fv-row mb-7'>
-            <label className='required fw-bold fs-6 mb-2'>Hotel Name</label>
+            <label className='required fw-bold fs-6 mb-2'>State Name</label>
             <input
-              placeholder='Hotel Name'
-              {...formik.getFieldProps('hotel_name')}
+              placeholder='State Name'
+              {...formik.getFieldProps('stateName')}
               type='text'
-              name='hotel_name'
+              name='stateName'
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
-                {'is-invalid': formik.touched.hotel_name && formik.errors.hotel_name},
+                {'is-invalid': formik.touched.stateName && formik.errors.stateName},
                 {
-                  'is-valid': formik.touched.hotel_name && !formik.errors.hotel_name,
+                  'is-valid': formik.touched.stateName && !formik.errors.stateName,
                 }
               )}
               autoComplete='off'
               disabled={formik.isSubmitting || isUserLoading}
             />
-            {formik.touched.hotel_name && formik.errors.hotel_name && (
+            {formik.touched.stateName && formik.errors.stateName && (
               <div className='fv-plugins-message-container'>
                 <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.hotel_name}</span>
+                  <span role='alert'>{formik.errors.stateName}</span>
                 </div>
               </div>
             )}
           </div>
 
 
-          <div className='fv-row mb-7'>
+          {/* <div className='fv-row mb-7'>
             <label className='required fw-bold fs-6 mb-2'>Price</label>
             <input
               placeholder='Price'
@@ -142,33 +142,33 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
 
-          <div className='fv-row mb-7'>
+          {/* <div className='fv-row mb-7'>
             <label className='required fw-bold fs-6 mb-2'>Stars</label>
             <input
               placeholder='Stars'
-              {...formik.getFieldProps('star')}
+              {...formik.getFieldProps('stars')}
               type='number'
-              name='star'
+              name='stars'createHotelData
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
-                {'is-invalid': formik.touched.star && formik.errors.star},
+                {'is-invalid': formik.touched.stars && formik.errors.stars},
                 {
-                  'is-valid': formik.touched.star && !formik.errors.star,
+                  'is-valid': formik.touched.stars && !formik.errors.stars,
                 }
               )}
               autoComplete='off'
               disabled={formik.isSubmitting || isUserLoading}
             />
-            {formik.touched.star && formik.errors.star && (
+            {formik.touched.stars && formik.errors.stars && (
               <div className='fv-plugins-message-container'>
                 <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.star}</span>
+                  <span role='alert'>{formik.errors.stars}</span>
                 </div>
-              </div>
+              </div>createHotelData
             )}
-          </div>
+          </div> */}
 
           <div className='fv-row mb-7'>
             {/* begin::Label */}
@@ -181,20 +181,20 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
               {...formik.getFieldProps('roleDescription')}
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
-                {'is-invalid': formik.touched.hotelDescription && formik.errors.hotelDescription},
+                {'is-invalid': formik.touched.stateDescription && formik.errors.stateDescription},
                 {
-                  'is-valid': formik.touched.hotelDescription && !formik.errors.hotelDescription,
+                  'is-valid': formik.touched.stateDescription && !formik.errors.stateDescription,
                 }
               )}
-              name='hotelDescription'
+              name='stateDescription'
               autoComplete='off'
               disabled={formik.isSubmitting || isUserLoading}
             />
             {/* end::Input */}
-            {formik.touched.hotelDescription && formik.errors.hotelDescription && (
+            {formik.touched.stateDescription && formik.errors.stateDescription && (
               <div className='fv-plugins-message-container'>
                 <div className='fv-help-block'>
-                  <span role={'alert'}>{formik.errors.hotelDescription}</span>
+                  <span role={'alert'}>{formik.errors.stateDescription}</span>
                 </div>
               </div>
             )}
@@ -252,7 +252,7 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
         </div>
         {/* end::Actions */}
       </form>
-      {(formik.isSubmitting || isUserLoading) && <ListLoading />}
+      {/* {(formik.isSubmitting || isUserLoading) && <ListLoading />} */}
     </>
   )
 }

@@ -9,7 +9,7 @@ import {
   QUERIES,
   WithChildren,
 } from '../../../../../../_metronic/helpers'
-import {getUserRoles} from './_requests'
+import {getHotelList} from './_requests'
 import {useQueryRequest} from './QueryRequestProvider'
 
 const QueryResponseContext = createResponseContext<any>(initialQueryResponse)
@@ -34,7 +34,7 @@ const QueryResponseProvider: FC<WithChildren> = ({children}) => {
   } = useQuery(
     `${QUERIES.USERS_LIST}-${query}`,
     () => {
-      return getUserRoles(query)
+      return getHotelList(query)
     },
     {cacheTime: 0, keepPreviousData: true, refetchOnWindowFocus: false}
   )

@@ -1,98 +1,66 @@
 import axios, {AxiosResponse} from 'axios'
 import {ID, Response} from '../../../../../../_metronic/helpers'
-import {UserRoleDataModel, UserRoleQueryResponse} from './_models'
+import { CarDataModel, CarQueryResponse } from './_models'
 
 const API_URL = process.env.REACT_APP_API_URL
 
-const getUserRoles = async (query: any): Promise<UserRoleQueryResponse> => {
-  let sortBy = 0
-  switch (query.sort) {
-    case 'roleDescription':
-      sortBy = 2
-      break
-    case 'roleName':
-      sortBy = 1
-      break
-    case 'status':
-      sortBy = 3
-      break
-    default:
-      break
-  }
+const getCarList = async (query: any): Promise<CarQueryResponse> => {
   const req = {
     pageSize: 10,
-    pageNo: query.page,
-    sortOrder: query.order === 'asc' ? 'ASC' : 'DESC',
-    sortBy: `${sortBy}`,
-    search: query.search || '',
+    pageNumber: query.page,
+    sortBy: 'cts',  
+    sortOrder: 'asc'
   }
   return axios
-    .post(`${API_URL}/userrole/get_userrole_list`, {...req})
-    .then((d: AxiosResponse<UserRoleQueryResponse>) => d.data)
+    .get(`${API_URL}/getAllcarList.php?`, {params:{...req}})
+    .then((d: AxiosResponse<CarQueryResponse>) => d.data)
 }
 
-const getUserRoleById = async (id: ID): Promise<UserRoleDataModel | undefined> => {
+const getCarById = async (id: ID): Promise<CarDataModel | undefined> => {
   return axios
-    .get(`${API_URL}/userrole/get_userrole_by_userroleid/${id}`)
-    .then((response: AxiosResponse<Response<UserRoleDataModel>>) => response.data)
-    .then((response: Response<UserRoleDataModel>) => response.data)
+    .get(`${API_URL}/getAllcarList.php/${id}`)
+    .then((response: AxiosResponse<Response<CarDataModel>>) => response.data)
+    .then((response: Response<CarDataModel>) => response.data)
 }
 
-const getUserData = async (userId:any): Promise<any> => {
-  const req = {
-    pageSize: 100,
-    pageNo: 1,
-    sortOrder: 'asc' === 'asc' ? 'ASC' : 'DESC',
-    sortBy: `0`,
-    search: '' || '',
-    userRoleId: userId,
-  }
-  return axios
-    .post(`${API_URL}/userrolemapping/get_all_roleusers`, {...req})
-    .then((response: any) => response.data)
-}
-
-const createUserRoleData = async (
-  data: UserRoleDataModel
-): Promise<UserRoleDataModel | undefined> => {
+const createCarData = async (
+  data: CarDataModel
+): Promise<CarDataModel | undefined> => {
   if (data) {
     data.status = data.status ? 1 : 0
   }
   return axios
-    .post(`${API_URL}/userrole/save_userrole`, data)
-    .then((response: AxiosResponse<Response<UserRoleDataModel>>) => response.data)
-    .then((response: Response<UserRoleDataModel>) => response.data)
+    .post(`${API_URL}/addCar.php`, data)
+    .then((response: AxiosResponse<Response<CarDataModel>>) => response.data)
+    .then((response: Response<CarDataModel>) => response.data)
 }
 
-const updateUserRoleData = async (
-  data: UserRoleDataModel
-): Promise<UserRoleDataModel | undefined> => {
+const updateCarData = async (
+  data: CarDataModel
+): Promise<CarDataModel | undefined> => {
   if (data) {
     data.status = data.status ? 1 : 0
   }
   return axios
-    .post(`${API_URL}/userrole/save_userrole`, data)
-    .then((response: AxiosResponse<Response<UserRoleDataModel>>) => response.data)
-    .then((response: Response<UserRoleDataModel>) => response.data)
+    .put(`${API_URL}/updateCarList.php`, data)
+    .then((response: AxiosResponse<Response<CarDataModel>>) => response.data)
+    .then((response: Response<CarDataModel>) => response.data)
 }
 
-const deleteUserRole = async (userRoleId: ID): Promise<void> => {
-  return axios.delete(`${API_URL}/userrole/delete_userrole/${userRoleId}`).then(() => {})
-}
+// const deleteUserRole = async (userRoleId: ID): Promise<void> => {
+//   return axios.delete(`${API_URL}/userrole/delete_userrole/${userRoleId}`).then(() => {})
+// }
 
-const deleteSelectedUserRoles = async (userRoleIds: Array<ID>): Promise<void> => {
-  const requests = userRoleIds.map((id) =>
-    axios.delete(`${API_URL}/userrole/delete_userrole/${id}`)
-  )
-  return axios.all(requests).then(() => {})
-}
+// const deleteSelectedUserRoles = async (userRoleIds: Array<ID>): Promise<void> => {
+//   const requests = userRoleIds.map((id) =>
+//     axios.delete(`${API_URL}/userrole/delete_userrole/${id}`)
+//   )
+//   return axios.all(requests).then(() => {})
+// }
 
 export {
-  getUserRoles,
-  deleteUserRole,
-  deleteSelectedUserRoles,
-  getUserRoleById,
-  createUserRoleData,
-  updateUserRoleData,
-  getUserData
+  getCarList,
+  getCarById,
+  createCarData,
+  updateCarData,
 }

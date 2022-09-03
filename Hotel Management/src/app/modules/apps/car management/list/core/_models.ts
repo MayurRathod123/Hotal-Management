@@ -1,18 +1,18 @@
-import {Response} from '../../../../../../_metronic/helpers'
-export type UserRoleDataModel = {
-  roleDescription?: String
-  carName?: String
+import {ID,Response} from '../../../../../../_metronic/helpers'
+export type CarDataModel = {
+  carDescription?: String
+  name?: String
   price:number
-  status?: any
-  userRoleId?: number
+  status?:number
+  id?: ID
 }
 
-export type UserRoleQueryResponse = Response<Array<UserRoleDataModel>>
+export type CarQueryResponse = Response<Array<CarDataModel>>
 
-export const initial: UserRoleDataModel = {
-  roleDescription: '',
-  carName: '',
+export const initial: CarDataModel = {
+  carDescription: '',
+  name: '',
   price:0,
   status: 0,
-  userRoleId: 0,
+  id: 0,
 }

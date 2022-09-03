@@ -8,7 +8,6 @@ const USER_URL = `${API_URL}/Users`
 const GET_USERS_URL = `${API_URL}/users/query`
 const { data : { authToken } } = authHelper.getAuth();
 const header = {Authorization: `Bearer ${authToken}`,accept:" */*","Content-Type": "application/json"}
-// console.log('************ 10', header)
 
 const getUsers = (query: any): Promise<UsersQueryResponse> => {
   const req = {

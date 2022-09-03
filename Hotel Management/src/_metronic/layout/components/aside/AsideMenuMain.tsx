@@ -18,23 +18,24 @@ export function AsideMenuMain() {
       /> */}
       <div className='menu-item'>
         <div className='menu-content pt-8 pb-2'>
-          <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Hotel Management</span>
+          <span className='menu-section text-muted text-uppercase fs-8 ls-1'>User Management</span>
         </div>
       </div>
-      <AsideMenuItemWithSub to='/hotel/' title='Hotel' hasBullet={true}>
-     
+      {/* <AsideMenuItemWithSub to='/hotel/' title='Hotel' hasBullet={true}> */}
         <AsideMenuItem to='/hotel-management' title='Hotel Management' hasBullet={true}/>
-      </AsideMenuItemWithSub>
+      {/* </AsideMenuItemWithSub> */}
 
-      <AsideMenuItemWithSub to='/car/' title='Car' hasBullet={true}>
+      {/* <AsideMenuItemWithSub to='/car/' title='Car' hasBullet={true}> */}
         <AsideMenuItem to='/car-management' title='Car Management' hasBullet={true}/>
-      </AsideMenuItemWithSub>
-      {/* <AsideMenuItem
-        to='/user-management/users'
-        icon='/media/icons/duotune/general/gen051.svg'
-        title='User management'
-        fontIcon='bi-layers'
-      /> */}
+      {/* </AsideMenuItemWithSub> */}
+
+      {/* <AsideMenuItemWithSub to='/state/' title='State' hasBullet={true}> */}
+        <AsideMenuItem to='/state-management' title='State Management' hasBullet={true}/>
+      {/* </AsideMenuItemWithSub> */}
+
+      {/* <AsideMenuItemWithSub to='/users/' title='User' hasBullet={true}>
+        <AsideMenuItem to='/user-management' title='User Management' hasBullet={true}/>
+      </AsideMenuItemWithSub> */}
     </>
   )
 }

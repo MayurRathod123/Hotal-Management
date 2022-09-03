@@ -1,8 +1,8 @@
 import {useQuery} from 'react-query'
 import {EditModalForm} from './EditModalForm'
 import {isNotEmpty, QUERIES} from '../../../../../../_metronic/helpers'
-import {useListView} from '../core/ListViewProvider'
-import {getHotelById,} from '../core/_requests'
+import {useListView} from '../core/StateListViewProvider'
+import {getStateById,} from '../core/_requests'
 
 const EditModalFormWrapper = () => {
   const {itemIdForUpdate, setItemIdForUpdate} = useListView()
@@ -14,7 +14,7 @@ const EditModalFormWrapper = () => {
   } = useQuery(
     `${QUERIES.HOTELS_LIST}-user-${itemIdForUpdate}`,
     () => {
-      return getHotelById(itemIdForUpdate)
+      return getStateById(itemIdForUpdate)
     },
     {
       cacheTime: 0,

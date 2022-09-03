@@ -21,8 +21,8 @@ const loginSchema = Yup.object().shape({
 })
 
 const initialValues = {
-  email: 'admin@demo.com',
-  password: 'demo',
+  email: 'roy@woyce.io',
+  password: 'Jd@123',
 }
 
 /*
@@ -46,8 +46,10 @@ export function Login() {
         if(!auth.data){
           throw('data not found')
         }
+        console.log(auth.data);
         saveAuth(auth.data)
-        // const {data: user} = await getUserByToken(auth.authToken)
+      //  const {data:user} = await getUserByToken(auth.data.authToken)
+      //  console.log(user);
         setCurrentUser(auth.data)
         
       setLoading(false)
@@ -57,7 +59,7 @@ export function Login() {
         setStatus('The login detail is incorrect')
         setSubmitting(false)
         setLoading(false)
-      }
+      } 
     },
   })
 

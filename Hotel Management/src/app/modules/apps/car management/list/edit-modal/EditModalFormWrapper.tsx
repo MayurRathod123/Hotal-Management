@@ -2,7 +2,7 @@ import {useQuery} from 'react-query'
 import {EditModalForm} from './EditModalForm'
 import {isNotEmpty, QUERIES} from '../../../../../../_metronic/helpers'
 import {useListView} from '../core/ListViewProvider'
-import {getUserRoleById} from '../core/_requests'
+import {getCarById} from '../core/_requests'
 
 const EditModalFormWrapper = () => {
   const {itemIdForUpdate, setItemIdForUpdate} = useListView()
@@ -12,9 +12,9 @@ const EditModalFormWrapper = () => {
     data: user,
     error,
   } = useQuery(
-    `${QUERIES.USERS_LIST}-user-${itemIdForUpdate}`,
+    `${QUERIES.CAR_LIST}-user-${itemIdForUpdate}`,
     () => {
-      return getUserRoleById(itemIdForUpdate)
+      return getCarById(itemIdForUpdate)
     },
     {
       cacheTime: 0,
@@ -27,7 +27,7 @@ const EditModalFormWrapper = () => {
   )
 
   if (!itemIdForUpdate) {
-    return <EditModalForm isUserLoading={isLoading} user={{userRoleId: undefined, price:0}} />
+    return <EditModalForm isUserLoading={isLoading} user={{id: undefined, price:0}} />
   }
 
   if (!isLoading && !error && user) {

@@ -1,20 +1,20 @@
-import {Response} from '../../../../../../_metronic/helpers'
-export type UserRoleDataModel = {
-  roleDescription?: String
-  price:number
-  stars:number
-  hotelName?: String
-  status?: any
-  userRoleId?: number
+import {ID, Response} from '../../../../../../_metronic/helpers'
+export type HotelDataModel = {
+  id?:ID
+  hotelDescription?:string
+  hotel_name?:string
+  price?:number
+  star?:number
+  status?:boolean
 }
 
-export type UserRoleQueryResponse = Response<Array<UserRoleDataModel>>
+export type HotelQueryResponce = Response <Array<HotelDataModel>>
 
-export const initial: UserRoleDataModel = {
-  roleDescription: '',
-  hotelName: '',
+export const initial: HotelDataModel = {
+  hotelDescription:" ",
+  id:0,
+  hotel_name:" ",
   price:0,
-  stars:0,
-  status: 0,
-  userRoleId: 0,
+  star:0,
+  status:false
 }

@@ -5,7 +5,7 @@ import {MenuComponent} from '../../../../../../../_metronic/assets/ts/components
 import {ID, KTSVG, QUERIES} from '../../../../../../../_metronic/helpers'
 import {useListView} from '../../core/ListViewProvider'
 import {useQueryResponse} from '../../core/QueryResponseProvider'
-import {deleteUserRole} from '../../core/_requests'
+// import {deleteUserRole} from '../../core/_requests'
 
 type Props = {
   id: ID
@@ -24,13 +24,13 @@ const ActionsCell: FC<Props> = ({id}) => {
     setItemIdForUpdate(id)
   }
 
-  const deleteItem = useMutation(() => deleteUserRole(id), {
-    // 💡 response of the mutation is passed to onSuccess
-    onSuccess: () => {
-      // ✅ update detail view directly
-      queryClient.invalidateQueries([`${QUERIES.USERS_LIST}-${query}`])
-    },
-  })
+  // const deleteItem = useMutation(() => deleteUserRole(id), {
+  //   // 💡 response of the mutation is passed to onSuccess
+  //   onSuccess: () => {
+  //     // ✅ update detail view directly
+  //     queryClient.invalidateQueries([`${QUERIES.USERS_LIST}-${query}`])
+  //   },
+  // })
 
   return (
     <>
@@ -74,13 +74,13 @@ const ActionsCell: FC<Props> = ({id}) => {
 
         {/* begin::Menu item */}
         <div className='menu-item px-3'>
-          <a
+          {/* <a
             className='menu-link px-3'
             data-kt-users-table-filter='delete_row'
             onClick={async () => await deleteItem.mutateAsync()}
           >
             Delete
-          </a>
+          </a> */}
         </div>
         {/* end::Menu item */}
       </div>

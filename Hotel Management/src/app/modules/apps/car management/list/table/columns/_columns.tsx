@@ -6,25 +6,20 @@ import {CustomHeader} from './CustomHeader'
 import {User} from '../../core/_models'
 
 const tableColumns: ReadonlyArray<Column<User>> = [
-  // {
-  //   Header: (props) => <UserSelectionHeader tableProps={props} />,
-  //   id: 'selection',
-  //   Cell: ({...props}) => <UserSelectionCell id={props.data[props.row.index].id} />,
-  // },
   {
     Header: (props) => <CustomHeader tableProps={props} title='Name' className='min-w-125px' />,
-    id: 'roleName',
-    Cell: ({...props}) => <p>{props.data[props.row.index].roleName}</p>,
+    id: 'name',
+    Cell: ({...props}) => <p>{props.data[props.row.index].name}</p>,
   },
   {
     Header: (props) => <CustomHeader tableProps={props} title='Price' className='min-w-125px' />,
-    id: 'roleDescription',
-    Cell: ({...props}) => <p>{props.data[props.row.index].roleDescription}</p>,
+    id: 'price',
+    Cell: ({...props}) => <p>{props.data[props.row.index].price}</p>,
   },
   {
     Header: (props) => <CustomHeader tableProps={props} title='status' className='min-w-125px' />,
     id: 'status',
-    Cell: ({...props}) => {return props.data[props.row.index].status == 0 ? <span className="badge badge-warning">Inactive</span> : <span className="badge badge-success">Active</span>},
+    Cell: ({...props}) => {return props.data[props.row.index].status == 1 ? <span className="badge badge-warning">Inactive</span> : <span className="badge badge-success">Active</span>},
   },
   {
     Header: (props) => (

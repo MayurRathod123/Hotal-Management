@@ -2,20 +2,20 @@ import { FC, useState } from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { isNotEmpty } from '../../../../../../_metronic/helpers'
-import { initial, UserRoleDataModel } from '../core/_models'
+import { initial, CarDataModel } from '../core/_models'
 import clsx from 'clsx'
 import { useListView } from '../core/ListViewProvider'
 import { ListLoading } from '../components/loading/ListLoading'
-import { createUserRoleData, updateUserRoleData } from '../core/_requests'
+import { createCarData, updateCarData } from '../core/_requests'
 import { useQueryResponse } from '../core/QueryResponseProvider'
 
 type Props = {
   isUserLoading: boolean
-  user: UserRoleDataModel
+  user: CarDataModel
 }
 
-const editUserSchema = Yup.object().shape({
-  carName: Yup.string()
+const editCarSchema = Yup.object().shape({
+  name: Yup.string()
     .min(1, 'Minimum 1 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('Car Name is required'),
@@ -24,7 +24,7 @@ const editUserSchema = Yup.object().shape({
     .integer("This field should contain an integer")
     .required().typeError("The field must contain a number"),
 
-  roleDescription: Yup.string()
+  carDescription: Yup.string()
     .min(1, 'Minimum 1 symbols')
     .max(500, 'Maximum 500 symbols')
     // .required('Description is required'),
@@ -34,15 +34,15 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
   const { setItemIdForUpdate } = useListView()
   const { refetch } = useQueryResponse()
 
-  const [userForEdit] = useState<UserRoleDataModel>({
+  const [userForEdit] = useState<CarDataModel>({
     ...user,
-    carName: user.carName || initial.carName,
+    name: user.name || initial.name,
     price: user.price || initial.price,
-    roleDescription: user.roleDescription || initial.roleDescription,
+    carDescription: user.carDescription || initial.carDescription,
     status: user.status || initial.status,
   })
 
-  const [status, setStatus] = useState(user.status ? true : false || initial.status ? true : false)
+  const [status, setStatus] = useState(user.status ? 1 : 0 || initial.status ? 0 : 1)
 
   const cancel = (withRefresh?: boolean) => {
     if (withRefresh) {
@@ -53,15 +53,15 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
 
   const formik = useFormik({
     initialValues: userForEdit,
-    validationSchema: editUserSchema,
+    validationSchema: editCarSchema,
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true)
       try {
         values.status = status
-        if (isNotEmpty(values.userRoleId)) {
-          await updateUserRoleData(values)
+        if (isNotEmpty(values.id)) {
+          await updateCarData(values)
         } else {
-          await createUserRoleData(values)
+          await createCarData(values)
         }
       } catch (ex) {
         console.error(ex)
@@ -94,23 +94,23 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
             {/* begin::Input */}
             <input
               placeholder='Car Name'
-              {...formik.getFieldProps('carName')}
+              {...formik.getFieldProps('name')}
               type='text'
-              name='carName'
+              name='name'
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
-                { 'is-invalid': formik.touched.carName && formik.errors.carName },
+                { 'is-invalid': formik.touched.name && formik.errors.name },
                 {
-                  'is-valid': formik.touched.carName && !formik.errors.carName,
+                  'is-valid': formik.touched.name && !formik.errors.name,
                 }
               )}
               autoComplete='off'
               disabled={formik.isSubmitting || isUserLoading}
             />
-            {formik.touched.carName && formik.errors.carName && (
+            {formik.touched.name && formik.errors.name && (
               <div className='fv-plugins-message-container'>
                 <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.carName}</span>
+                  <span role='alert'>{formik.errors.name}</span>
                 </div>
               </div>
             )}
@@ -154,23 +154,23 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
             {/* begin::Input */}
             <textarea
               placeholder='Description'
-              {...formik.getFieldProps('roleDescription')}
+              {...formik.getFieldProps('carDescription')}
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
-                { 'is-invalid': formik.touched.roleDescription && formik.errors.roleDescription },
+                { 'is-invalid': formik.touched.carDescription && formik.errors.carDescription },
                 {
-                  'is-valid': formik.touched.roleDescription && !formik.errors.roleDescription,
+                  'is-valid': formik.touched.carDescription && !formik.errors.carDescription,
                 }
               )}
-              name='roleDescription'
+              name='carDescription'
               autoComplete='off'
               disabled={formik.isSubmitting || isUserLoading}
             />
             {/* end::Input */}
-            {formik.touched.roleDescription && formik.errors.roleDescription && (
+            {formik.touched.carDescription && formik.errors.carDescription && (
               <div className='fv-plugins-message-container'>
                 <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.roleDescription}</span>
+                  <span role='alert'>{formik.errors.carDescription}</span>
                 </div>
               </div>
             )}
@@ -186,9 +186,9 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
                 className='form-check-input'
                 type='checkbox'
                 onChange={() => {
-                  setStatus(!status)
+                  setStatus(1)
                 }}
-                checked={status}
+                // checked={}
                 id='flexSwitchDefault'
               />
             </div>
