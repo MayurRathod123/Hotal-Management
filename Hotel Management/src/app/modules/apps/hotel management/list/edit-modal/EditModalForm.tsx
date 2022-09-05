@@ -1,53 +1,53 @@
-import {FC, useState} from 'react'
+import { FC, useState } from 'react'
 import * as Yup from 'yup'
-import {useFormik} from 'formik'
-import {isNotEmpty} from '../../../../../../_metronic/helpers'
-import {HotelDataModel, initial, } from '../core/_models'
+import { useFormik } from 'formik'
+import { isNotEmpty } from '../../../../../../_metronic/helpers'
+import { HotelDataModel, initial, } from '../core/_models'
 import clsx from 'clsx'
-import {useListView} from '../core/ListViewProvider'
-import {ListLoading} from '../components/loading/ListLoading'
-import {createHotelData, updateHotelData,} from '../core/_requests'
-import {useQueryResponse} from '../core/QueryResponseProvider'
+import { useListView } from '../core/ListViewProvider'
+import { ListLoading } from '../components/loading/ListLoading'
+import { createHotelData, updateHotelData, } from '../core/_requests'
+import { useQueryResponse } from '../core/QueryResponseProvider'
 
 type Props = {
   isUserLoading: boolean
-  user:HotelDataModel
+  user: HotelDataModel
 }
 
 const editHotelSchema = Yup.object().shape({
-    hotel_name: Yup.string()
+  state: Yup.string()
+  .min(1, 'Minimum 1 symbols')
+  .max(50, 'Maximum 50 symbols')
+  .required('State Name is required'),
+
+  hotel_name: Yup.string()
     .min(1, 'Minimum 1 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('Hotel Name is required'),
 
-    price: Yup.number()
+  price: Yup.number()
     .integer("This field should contain an integer")
     .required().typeError("The field must contain a number"),
 
-    star: Yup.number()
+  star: Yup.number()
     .integer("This field should contain an integer")
     .required().typeError("The field must contain a number"),
-   
-    hotelDescription: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(500, 'Maximum 500 symbols')
-    .required('Description is required'),
 })
 
-const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
-  const {setItemIdForUpdate} = useListView()
-  const {refetch} = useQueryResponse()
+const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
+  const { setItemIdForUpdate } = useListView()
+  const { refetch } = useQueryResponse()
 
   const [userForEdit] = useState<HotelDataModel>({
     ...user,
+    state:user.state || initial.state,
     hotel_name: user.hotel_name || initial.hotel_name,
     price: user.price || initial.price,
     star: user.star || initial.star,
-    hotelDescription: user.hotelDescription || initial.hotelDescription,
     status: user.status || initial.status,
   })
 
-  const [status, setStatus] = useState(user.status ? true : false || initial.status ? true : false)
+  const [status, setStatus] = useState(user.status ? true : false || initial.status ? false : true)
 
   const cancel = (withRefresh?: boolean) => {
     if (withRefresh) {
@@ -59,10 +59,10 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
   const formik = useFormik({
     initialValues: userForEdit,
     validationSchema: editHotelSchema,
-    onSubmit: async (values, {setSubmitting}) => {
+    onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true)
       try {
-        values.status = status ? 1:0
+        values.status = status ? 1 : 0
         if (isNotEmpty(values.id)) {
           await updateHotelData(values)
         } else {
@@ -91,6 +91,30 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
           data-kt-scroll-wrappers='#kt_modal_add_user_scroll'
           data-kt-scroll-offset='300px'
         >
+
+
+          <div className='fv-row mb-7'>
+            <label className='required fw-bold fs-6 mb-2'>State</label>
+            <select
+              defaultValue=''
+              {...formik.getFieldProps('state')}
+              className={clsx(
+                'form-control form-control-solid mb-3 mb-lg-0',
+                { 'is-invalid': formik.touched.state && formik.errors.state },
+                {
+                  'is-valid': formik.touched.state && !formik.errors.state,
+                }
+              )}
+            >
+              <option value="Goa">Goa</option>
+              <option value="Keral">Keral</option>
+              <option value="Manali">Manali</option>
+              <option value="Up">Up</option>
+              <option value="Mp">Mp</option>
+              <option value="Rajsthan">Rajsthan</option>
+              <option value="New Delhi">New Delhi</option>
+            </select>
+          </div>
           <div className='fv-row mb-7'>
             <label className='required fw-bold fs-6 mb-2'>Hotel Name</label>
             <input
@@ -100,7 +124,7 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
               name='hotel_name'
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
-                {'is-invalid': formik.touched.hotel_name && formik.errors.hotel_name},
+                { 'is-invalid': formik.touched.hotel_name && formik.errors.hotel_name },
                 {
                   'is-valid': formik.touched.hotel_name && !formik.errors.hotel_name,
                 }
@@ -127,7 +151,7 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
               name='price'
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
-                {'is-invalid': formik.touched.price && formik.errors.price},
+                { 'is-invalid': formik.touched.price && formik.errors.price },
                 {
                   'is-valid': formik.touched.price && !formik.errors.price,
                 }
@@ -145,6 +169,28 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
           </div>
 
           <div className='fv-row mb-7'>
+            <label className='required fw-bold fs-6 mb-2'>Star</label>
+            <select
+              defaultValue=''
+              {...formik.getFieldProps('state')}
+              className={clsx(
+                'form-control form-control-solid mb-3 mb-lg-0',
+                { 'is-invalid': formik.touched.star && formik.errors.star },
+                {
+                  'is-valid': formik.touched.star && !formik.errors.star,
+                }
+              )}
+            >
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3 </option>
+              <option value="4">4 </option>
+              <option value="5">5 </option>
+              <option value="6">6 </option>
+              <option value="7">7 </option>
+            </select>
+          </div>
+          {/* <div className='fv-row mb-7'>
             <label className='required fw-bold fs-6 mb-2'>Stars</label>
             <input
               placeholder='Stars'
@@ -168,37 +214,9 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
 
-          <div className='fv-row mb-7'>
-            {/* begin::Label */}
-            <label className='fw-bold fs-6 mb-2'>Description</label>
-            {/* end::Label */}
 
-            {/* begin::Input */}
-            <textarea
-              placeholder='Description'
-              {...formik.getFieldProps('roleDescription')}
-              className={clsx(
-                'form-control form-control-solid mb-3 mb-lg-0',
-                {'is-invalid': formik.touched.hotelDescription && formik.errors.hotelDescription},
-                {
-                  'is-valid': formik.touched.hotelDescription && !formik.errors.hotelDescription,
-                }
-              )}
-              name='hotelDescription'
-              autoComplete='off'
-              disabled={formik.isSubmitting || isUserLoading}
-            />
-            {/* end::Input */}
-            {formik.touched.hotelDescription && formik.errors.hotelDescription && (
-              <div className='fv-plugins-message-container'>
-                <div className='fv-help-block'>
-                  <span role={'alert'}>{formik.errors.hotelDescription}</span>
-                </div>
-              </div>
-            )}
-          </div>
           <div className='fv-row mb-7'>
             {/* begin::Label */}
             <label className='required fw-bold fs-6 mb-2'>Status</label>
@@ -257,4 +275,4 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
   )
 }
 
-export {EditModalForm}
+export { EditModalForm }

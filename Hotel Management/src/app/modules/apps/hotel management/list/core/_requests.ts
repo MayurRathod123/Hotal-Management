@@ -5,7 +5,6 @@ import { HotelDataModel, HotelQueryResponce } from './_models';
 const API_URL = process.env.REACT_APP_API_URL;
 
 const getHotelList = async(query:any): Promise<HotelQueryResponce> => {
-	console.log(query)
 	const req = {
 		pageSize: 10,
 		pageNumber: query.page,
