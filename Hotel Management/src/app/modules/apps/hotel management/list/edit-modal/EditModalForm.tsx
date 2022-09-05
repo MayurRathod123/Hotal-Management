@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { isNotEmpty } from '../../../../../../_metronic/helpers'
@@ -6,8 +6,11 @@ import { HotelDataModel, initial, } from '../core/_models'
 import clsx from 'clsx'
 import { useListView } from '../core/ListViewProvider'
 import { ListLoading } from '../components/loading/ListLoading'
-import { createHotelData, updateHotelData, } from '../core/_requests'
+import { createHotelData, getAllState, updateHotelData, } from '../core/_requests'
 import { useQueryResponse } from '../core/QueryResponseProvider'
+import { Console } from 'console'
+import { useQuery } from 'react-query'
+
 
 type Props = {
   isUserLoading: boolean
@@ -15,7 +18,7 @@ type Props = {
 }
 
 const editHotelSchema = Yup.object().shape({
-  state: Yup.string()
+  state_id: Yup.string()
   .min(1, 'Minimum 1 symbols')
   .max(50, 'Maximum 50 symbols')
   .required('State Name is required'),
@@ -40,7 +43,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
 
   const [userForEdit] = useState<HotelDataModel>({
     ...user,
-    state:user.state || initial.state,
+    state_id:user.state_id || initial.state_id,
     hotel_name: user.hotel_name || initial.hotel_name,
     price: user.price || initial.price,
     star: user.star || initial.star,
@@ -77,6 +80,18 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
     },
   })
 
+  const {
+    data: stateList,
+  } = useQuery(
+    'getAllState',
+    () => {
+      return getAllState()
+    },
+    {cacheTime: 0, keepPreviousData: true, refetchOnWindowFocus: false}
+  )
+  console.log(stateList)
+
+
   return (
     <>
       <form id='kt_modal_add_user_form' className='form' onSubmit={formik.handleSubmit} noValidate>
@@ -97,22 +112,16 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
             <label className='required fw-bold fs-6 mb-2'>State</label>
             <select
               defaultValue=''
-              {...formik.getFieldProps('state')}
+              {...formik.getFieldProps('state_id')}
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
-                { 'is-invalid': formik.touched.state && formik.errors.state },
+                { 'is-invalid': formik.touched.state_id && formik.errors.state_id },
                 {
-                  'is-valid': formik.touched.state && !formik.errors.state,
+                  'is-valid': formik.touched.state_id && !formik.errors.state_id,
                 }
               )}
             >
-              <option value="Goa">Goa</option>
-              <option value="Keral">Keral</option>
-              <option value="Manali">Manali</option>
-              <option value="Up">Up</option>
-              <option value="Mp">Mp</option>
-              <option value="Rajsthan">Rajsthan</option>
-              <option value="New Delhi">New Delhi</option>
+              {stateList && stateList.map((value:any)=> <option value={value.id}>{value.state}</option>)}
             </select>
           </div>
           <div className='fv-row mb-7'>
@@ -172,7 +181,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
             <label className='required fw-bold fs-6 mb-2'>Star</label>
             <select
               defaultValue=''
-              {...formik.getFieldProps('state')}
+              {...formik.getFieldProps('star')}
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
                 { 'is-invalid': formik.touched.star && formik.errors.star },
@@ -264,7 +273,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
               <span className='indicator-progress'>
                 Please wait...{' '}
                 <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
-              </span>
+              </span> 
             )}
           </button>
         </div>

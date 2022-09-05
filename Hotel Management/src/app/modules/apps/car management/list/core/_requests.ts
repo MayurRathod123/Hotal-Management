@@ -17,8 +17,10 @@ const getCarList = async (query: any): Promise<CarQueryResponse> => {
 }
 
 const getCarById = async (id: ID): Promise<CarDataModel | undefined> => {
+  console.log(id, 'id called')
+
   return axios
-    .get(`${API_URL}/getAllcarList.php/${id}`)
+    .get(`${API_URL}/getCarById.php?id=${id}`)
     .then((response: AxiosResponse<Response<CarDataModel>>) => response.data)
     .then((response: Response<CarDataModel>) => response.data)
 }
@@ -47,20 +49,17 @@ const updateCarData = async (
     .then((response: Response<CarDataModel>) => response.data)
 }
 
-// const deleteUserRole = async (userRoleId: ID): Promise<void> => {
-//   return axios.delete(`${API_URL}/userrole/delete_userrole/${userRoleId}`).then(() => {})
-// }
+const deleteCar = async (id:ID): Promise<void> => {
+  console.log(id)
+  return axios.get(`${API_URL}/deleteCer.php?id=${id}`)
+  .then(() => {})
+}
 
-// const deleteSelectedUserRoles = async (userRoleIds: Array<ID>): Promise<void> => {
-//   const requests = userRoleIds.map((id) =>
-//     axios.delete(`${API_URL}/userrole/delete_userrole/${id}`)
-//   )
-//   return axios.all(requests).then(() => {})
-// }
 
 export {
   getCarList,
   getCarById,
   createCarData,
   updateCarData,
+  deleteCar,
 }

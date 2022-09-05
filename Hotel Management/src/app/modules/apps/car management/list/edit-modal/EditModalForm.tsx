@@ -24,10 +24,6 @@ const editCarSchema = Yup.object().shape({
     .integer("This field should contain an integer")
     .required().typeError("The field must contain a number"),
 
-  carDescription: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(500, 'Maximum 500 symbols')
-    // .required('Description is required'),
 })
 
 const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
@@ -38,11 +34,10 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
     ...user,
     name: user.name || initial.name,
     price: user.price || initial.price,
-    carDescription: user.carDescription || initial.carDescription,
-    status: user.status || initial.status,
+     status: user.status || initial.status,
   })
 
-  const [status, setStatus] = useState(user.status ? 1 : 0 || initial.status ? 0 : 1)
+  const [status, setStatus] = useState(user.status ? true : false || initial.status ? false: true)
 
   const cancel = (withRefresh?: boolean) => {
     if (withRefresh) {
@@ -57,7 +52,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true)
       try {
-        values.status = status
+        values.status = status ? 1 :0
         if (isNotEmpty(values.id)) {
           await updateCarData(values)
         } else {
@@ -146,35 +141,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
           {/* end::Input group */}
 
           {/* begin::Input group */}
-          <div className='fv-row mb-7'>
-            {/* begin::Label */}
-            <label className='fw-bold fs-6 mb-2'>Description</label>
-            {/* end::Label */}
-
-            {/* begin::Input */}
-            <textarea
-              placeholder='Description'
-              {...formik.getFieldProps('carDescription')}
-              className={clsx(
-                'form-control form-control-solid mb-3 mb-lg-0',
-                { 'is-invalid': formik.touched.carDescription && formik.errors.carDescription },
-                {
-                  'is-valid': formik.touched.carDescription && !formik.errors.carDescription,
-                }
-              )}
-              name='carDescription'
-              autoComplete='off'
-              disabled={formik.isSubmitting || isUserLoading}
-            />
-            {/* end::Input */}
-            {formik.touched.carDescription && formik.errors.carDescription && (
-              <div className='fv-plugins-message-container'>
-                <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.carDescription}</span>
-                </div>
-              </div>
-            )}
-          </div>
+         
           <div className='fv-row mb-7'>
             {/* begin::Label */}
             <label className='required fw-bold fs-6 mb-2'>Status</label>
@@ -186,9 +153,9 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
                 className='form-check-input'
                 type='checkbox'
                 onChange={() => {
-                  setStatus(1)
+                  setStatus(!status)
                 }}
-                // checked={}
+                checked={status}
                 id='flexSwitchDefault'
               />
             </div>

@@ -19,16 +19,8 @@ export type ListViewContextProps = {
   // UNDEFINED => MODAL IS CLOSED
   itemIdForUpdate?: ID
   setItemIdForUpdate: Dispatch<SetStateAction<ID>>
-  addUserView?:any
-  setAddUserView:any
-  addPermissionId?:any
-  setAddPermissionId?:any
-  addUserId?:any
-   setAddUserId?:any
   isAllSelected: boolean
   disabled: boolean
-  addPermissionView?: any,
-  setAddPermissionView: any,
 }
 
 export const initialListView: ListViewContextProps = {
@@ -37,8 +29,6 @@ export const initialListView: ListViewContextProps = {
   onSelectAll: () => {},
   clearSelected: () => {},
   setItemIdForUpdate: () => {},
-  setAddPermissionView: () => {},
-  setAddUserView: () => {},
   isAllSelected: false,
   disabled: false,
 }
@@ -52,22 +42,12 @@ const ListViewProvider: FC<WithChildren> = ({children}) => {
   const data = useQueryResponseData()
   const disabled = useMemo(() => calculatedGroupingIsDisabled(isLoading, data), [isLoading, data])
   const isAllSelected = useMemo(() => calculateIsAllDataSelected(data, selected), [data, selected])
-  const [addUserView, setAddUserView] = useState<any>(false)
-  const [addPermissionView,setAddPermissionView] = useState<any>(false)
-  const [addUserId,setAddUserId] = useState('')
-  const [addPermissionId, setAddPermissionId] = useState('')
   return (
     <ListViewContext.Provider
       value={{
         selected,
         itemIdForUpdate,
         setItemIdForUpdate,
-        addUserView,
-        setAddUserView,
-        addPermissionView,
-        setAddPermissionView,
-        addUserId,setAddUserId,
-        addPermissionId, setAddPermissionId,
         disabled,
         isAllSelected,
         onSelect: (id: ID) => {

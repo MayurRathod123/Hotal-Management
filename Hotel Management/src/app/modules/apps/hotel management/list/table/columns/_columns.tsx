@@ -8,7 +8,12 @@ import { truncateSync } from 'fs'
 
 const tableColumns: ReadonlyArray<Column<User>> = [
    {
-    Header: (props) => <CustomHeader tableProps={props} title='Name' className='min-w-125px' />,
+    Header: (props) => <CustomHeader tableProps={props} title='State Name' className='min-w-125px' />,
+    id: 'state_id',
+    Cell: ({...props}) => <p>{props.data[props.row.index].state_name}</p>,
+  },
+  {
+    Header: (props) => <CustomHeader tableProps={props} title='Hotel Name' className='min-w-125px' />,
     id: 'hotel_name',
     Cell: ({...props}) => <p>{props.data[props.row.index].hotel_name}</p>,
   },
@@ -25,7 +30,7 @@ const tableColumns: ReadonlyArray<Column<User>> = [
   {
     Header: (props) => <CustomHeader tableProps={props} title='status' className='min-w-125px' />,
     id: 'status',
-    Cell: ({...props}) => {return props.data[props.row.index].status === 1 ? <span className="badge badge-warning">Active</span> : <span className="badge badge-success">InActive</span>},
+    Cell: ({...props}) => {return props.data[props.row.index].status == 0 ? <span className="badge badge-warning">InActive</span> : <span className="badge badge-success">Active</span>},
   },
   {
     Header: (props) => (

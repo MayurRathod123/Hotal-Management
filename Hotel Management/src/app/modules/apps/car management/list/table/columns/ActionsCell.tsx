@@ -5,14 +5,14 @@ import {MenuComponent} from '../../../../../../../_metronic/assets/ts/components
 import {ID, KTSVG, QUERIES} from '../../../../../../../_metronic/helpers'
 import {useListView} from '../../core/ListViewProvider'
 import {useQueryResponse} from '../../core/QueryResponseProvider'
-// import {deleteUserRole} from '../../core/_requests'
+import { deleteCar } from '../../core/_requests'
 
 type Props = {
   id: ID
 }
 
 const ActionsCell: FC<Props> = ({id}) => {
-  const {setItemIdForUpdate, setAddUserView, setAddPermissionView, setAddUserId, setAddPermissionId} = useListView()
+  const {setItemIdForUpdate} = useListView()
   const {query} = useQueryResponse()
   const queryClient = useQueryClient()
 
@@ -24,13 +24,13 @@ const ActionsCell: FC<Props> = ({id}) => {
     setItemIdForUpdate(id)
   }
 
-  // const deleteItem = useMutation(() => deleteUserRole(id), {
-  //   // 💡 response of the mutation is passed to onSuccess
-  //   onSuccess: () => {
-  //     // ✅ update detail view directly
-  //     queryClient.invalidateQueries([`${QUERIES.USERS_LIST}-${query}`])
-  //   },
-  // })
+  const deleteItem = useMutation(() => deleteCar(id), {
+    // 💡 response of the mutation is passed to onSuccess
+    onSuccess: () => {
+      // ✅ update detail view directly
+      queryClient.invalidateQueries([`${QUERIES.USERS_LIST}-${query}`])
+    },
+  })
 
   return (
     <>
@@ -48,22 +48,6 @@ const ActionsCell: FC<Props> = ({id}) => {
         className='menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-150px py-4'
         data-kt-menu='true'
       >
-         <div className='menu-item px-3'>
-          <a
-            className='menu-link px-3'
-            onClick={async () => {setAddUserView(true);setAddUserId(id)}}
-          >
-            Add Users
-          </a>
-        </div>
-        <div className='menu-item px-3'>
-          <a
-            className='menu-link px-3'
-            onClick={async () => {setAddPermissionView(true);setAddPermissionId(id)}}
-          >
-            Add Permissions
-          </a>
-        </div>
         {/* begin::Menu item */}
         <div className='menu-item px-3'>
           <a className='menu-link px-3' onClick={openEditModal}>
@@ -74,13 +58,13 @@ const ActionsCell: FC<Props> = ({id}) => {
 
         {/* begin::Menu item */}
         <div className='menu-item px-3'>
-          {/* <a
+          <a
             className='menu-link px-3'
             data-kt-users-table-filter='delete_row'
             onClick={async () => await deleteItem.mutateAsync()}
           >
             Delete
-          </a> */}
+          </a>
         </div>
         {/* end::Menu item */}
       </div>

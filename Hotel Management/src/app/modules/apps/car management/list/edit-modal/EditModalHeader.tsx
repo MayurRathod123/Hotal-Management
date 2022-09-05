@@ -2,12 +2,12 @@ import {KTSVG} from '../../../../../../_metronic/helpers'
 import {useListView} from '../core/ListViewProvider'
 
 const EditModalHeader = () => {
-  const {setItemIdForUpdate} = useListView()
+  const {setItemIdForUpdate, itemIdForUpdate} = useListView()
 
   return (
     <div className='modal-header'>
       {/* begin::Modal title */}
-      <h2 className='fw-bolder'>Add Car</h2>
+      <h2 className='fw-bolder'>{itemIdForUpdate ? 'Edit' : 'Add' } Car</h2>
       {/* end::Modal title */}
 
       {/* begin::Close */}

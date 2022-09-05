@@ -8,8 +8,9 @@ const getHotelList = async(query:any): Promise<HotelQueryResponce> => {
 	const req = {
 		pageSize: 10,
 		pageNumber: query.page,
-		sortBy:'cts', 
-		sortOrder: 'asc'
+		sortBy:query.sort,
+		sortOrder: query.order,
+		search:query.search
 	  }
 	return axios
 		.get(`${API_URL}/getHotel.php?`, {params:{...req}})
@@ -43,7 +44,7 @@ const updateHotelData = async (
 		data.status = data.status ? 1 : 0;
 	}
 	return axios
-		.put(`${API_URL}/updateHotel.php`, {data})
+		.put(`${API_URL}/updateHotel.php`, data)
 		.then((response: AxiosResponse<Response<HotelDataModel>>) => response.data)
 		.then((response: Response<HotelDataModel>) => response.data);
 };
@@ -52,11 +53,20 @@ const deleteHotel = async (id: any): Promise<void> => {
   return axios.get(`${API_URL}/deleteHotel.php?id=${id.id}`)
   .then(() => {})
 }
-export {
 
+const getAllState = async():Promise<any>=>{
+	return axios
+	.get(`${API_URL}/publicGetallState.php`)
+	.then((responce:AxiosResponse<Response<any>>)=>responce.data)
+	.then((responce:Response<any>)=>(responce.data))
+}
+
+
+export {
 	getHotelList,
 	getHotelById,
 	createHotelData,
 	updateHotelData,
 	deleteHotel,
+	getAllState,
 };
