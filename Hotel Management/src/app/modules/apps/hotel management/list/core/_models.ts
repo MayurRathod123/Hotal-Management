@@ -5,7 +5,7 @@ export type HotelDataModel = {
   hotel_name?:string
   price?:number
   star?:number
-  status?:boolean
+  status?:number
 }
 
 export type HotelQueryResponce = Response <Array<HotelDataModel>>
@@ -16,5 +16,5 @@ export const initial: HotelDataModel = {
   hotel_name:" ",
   price:0,
   star:0,
-  status:false
+  status:0
 }

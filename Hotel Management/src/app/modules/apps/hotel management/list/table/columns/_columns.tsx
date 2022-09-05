@@ -25,7 +25,7 @@ const tableColumns: ReadonlyArray<Column<User>> = [
   {
     Header: (props) => <CustomHeader tableProps={props} title='status' className='min-w-125px' />,
     id: 'status',
-    Cell: ({...props}) => {return props.data[props.row.index].status == true ? <span className="badge badge-warning">InActive</span> : <span className="badge badge-success">Active</span>},
+    Cell: ({...props}) => {return props.data[props.row.index].status === 1 ? <span className="badge badge-warning">Active</span> : <span className="badge badge-success">InActive</span>},
   },
   {
     Header: (props) => (

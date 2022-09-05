@@ -62,7 +62,7 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
     onSubmit: async (values, {setSubmitting}) => {
       setSubmitting(true)
       try {
-        values.status = true
+        values.status = status ? 1:0
         if (isNotEmpty(values.id)) {
           await updateHotelData(values)
         } else {

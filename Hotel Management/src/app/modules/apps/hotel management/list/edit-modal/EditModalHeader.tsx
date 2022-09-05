@@ -6,7 +6,7 @@ const EditModalHeader = () => {
 
   return (
     <div className='modal-header'>
-      {/* begin::Modal title */}
+      {/* begin::Modal title */}    
       <h2 className='fw-bolder'>Add Hotel</h2>
       {/* end::Modal title */}
 
