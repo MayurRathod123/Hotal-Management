@@ -48,9 +48,9 @@ export function Login() {
         }
         console.log(auth.data);
         saveAuth(auth.data)
-      //  const {data:user} = await getUserByToken(auth.data.authToken)
-      //  console.log(user);
-        setCurrentUser(auth.data)
+       const {data:user} = await getUserByToken(auth.data.authToken)
+       console.log(user);
+        setCurrentUser(auth.data.authToken)
         
       setLoading(false)
       } catch (error) {

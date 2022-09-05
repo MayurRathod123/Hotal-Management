@@ -8,8 +8,8 @@ const getHotelList = async(query:any): Promise<HotelQueryResponce> => {
 	const req = {
 		pageSize: 10,
 		pageNumber: query.page,
-		sortBy:query.sort,  
-		sortOrder: query.order
+		sortBy:'cts', 
+		sortOrder: 'asc'
 	  }
 	return axios
 		.get(`${API_URL}/getHotel.php?`, {params:{...req}})

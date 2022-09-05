@@ -53,8 +53,8 @@ export function setupAxios(axios: any) {
     (config: {headers: {Authorization: string}}) => {
       const auth = getAuth()
       console.log(auth);
-      if (auth && auth.api_token) {
-        config.headers.Authorization = `Bearer ${auth.api_token}`
+      if (auth && auth.authToken) {
+        config.headers.Authorization = `Bearer ${auth.authToken}`
       }
       return config
     },
