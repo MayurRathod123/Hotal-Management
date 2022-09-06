@@ -1,56 +1,72 @@
-import axios, {AxiosResponse} from 'axios'
-import {ID, Response} from '../../../../../../_metronic/helpers'
-import {StateDataModel, StateQueryResponce} from './_models'
-import * as authHelper from '../../../../auth/core/AuthHelpers'
+import axios, { AxiosResponse } from 'axios';
+import { ID, Response } from '../../../../../../_metronic/helpers';
+import { StateDataModel, StateQueryResponce } from './_models';
 
-const API_URL = process.env.REACT_APP_API_URL
-const USER_URL = `${API_URL}/Users`
-const GET_USERS_URL = `${API_URL}/users/query`
-const { data : { authToken } } = authHelper.getAuth();
-const header = {Authorization: `Bearer ${authToken}`,accept:" */*","Content-Type": "application/json"}
-// console.log('************ 10', header)
+const API_URL = process.env.REACT_APP_API_URL;
 
-const getStateData = (query: any): Promise<StateQueryResponce> => {
-  const req = {
-      "pageSize": 10,
-      "pageNo": query.page,
-      "sortOrder": "ASC",
-      "sortBy": "0",
-      "search": ""
-  }
-  return axios
-    .post(`${USER_URL}/list`, {...req} ,{headers: header})
-    .then((d: AxiosResponse<StateQueryResponce>) => d.data)
+const getStateList = async(query:any): Promise<StateQueryResponce> => {
+	const req = {
+		pageSize: 10,
+		pageNumber: query.page,
+		sortBy:query.sort || 'cts',
+		sortOrder: query.order || 'desc',
+		search:query.search
+	  }
+	return axios
+		.get(`${API_URL}/getState.php?`, {params:{...req}})
+		.then((d: AxiosResponse<StateQueryResponce>) => d.data);
+};
+
+
+const getStateById = async(id:any): Promise<StateDataModel | undefined> => {
+	return axios
+		.get(`${API_URL}/getStateById.php?id=${id.id}`)
+		.then((response: AxiosResponse<Response<StateDataModel>>) => response.data)	
+		.then((response: Response<StateDataModel>) => response.data);
+};
+
+const createStateData = async (
+	data: StateDataModel,
+): Promise<StateDataModel | undefined> => {
+	if (data) {
+		data.status = data.status ? 1 : 0;
+	}
+	return axios
+		.post(`${API_URL}/addState.php`, data)
+		.then((response: AxiosResponse<Response<StateDataModel>>) => response.data)
+		.then((response: Response<StateDataModel>) => response.data);
+};
+
+const updateStateData = async (
+	data: StateDataModel,
+): Promise<StateDataModel | undefined> => {
+	if (data) {
+		data.status = data.status ? 1 : 0;
+	}
+	return axios
+		.put(`${API_URL}/updateState.php`, data)
+		.then((response: AxiosResponse<Response<StateDataModel>>) => response.data)
+		.then((response: Response<StateDataModel>) => response.data);
+};
+
+const deleteState = async (id: any): Promise<void> => {
+  return axios.get(`${API_URL}/deleteState.php?id=${id.id}`)
+  .then(() => {})
 }
 
-const getStateById = (id: ID): Promise<StateDataModel | undefined> => {
-  return axios
-    .get(`${USER_URL}/${id}`,{headers: header})
-    .then((response: AxiosResponse<Response<StateDataModel>>) => response.data)
-    .then((response: Response<StateDataModel>) => response.data)
+const getAllState = async():Promise<any>=>{
+	return axios
+	.get(`${API_URL}/publicGetallState.php`)
+	.then((responce:AxiosResponse<Response<any>>)=>responce.data)
+	.then((responce:Response<any>)=>(responce.data))
 }
 
-const createState = (user: StateDataModel): Promise<StateDataModel | undefined> => {  
-  return axios
-    .post(`${USER_URL}/save`, user,{headers: header})
-    .then((response: AxiosResponse<Response<StateDataModel>>) => response.data)
-    .then((response: Response<StateDataModel>) => response.data)
-}
 
-const updateState = (user: StateDataModel): Promise<StateDataModel | undefined> => {
-  return axios
-    .post(`${USER_URL}/save`, user,{headers: header})
-    .then((response: AxiosResponse<Response<StateDataModel>>) => response.data)
-    .then((response: Response<StateDataModel>) => response.data)
-}
-
-// const deleteUser = (userId: ID): Promise<void> => {
-//   return axios.delete(`${USER_URL}/delete/${userId}`,{headers: header}).then(() => {})
-// }
-
-// const deleteSelectedUsers = (userIds: Array<ID>): Promise<void> => {
-//   const requests = userIds.map((id) => axios.delete(`${USER_URL}/${id}`,{headers: header}))
-//   return axios.all(requests).then(() => {})
-// }
-
-export {getStateData, getStateById, createState, updateState}
+export {
+	getStateList,
+	getStateById,
+	createStateData,
+	updateStateData,
+	deleteState,
+	getAllState,
+};

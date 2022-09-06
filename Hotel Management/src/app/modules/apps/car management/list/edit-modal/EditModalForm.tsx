@@ -34,10 +34,10 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
     ...user,
     name: user.name || initial.name,
     price: user.price || initial.price,
-     status: user.status || initial.status,
+    status: user.status || initial.status,
   })
 
-  const [status, setStatus] = useState(user.status ? true : false || initial.status ? false: true)
+  const [status, setStatus] = useState(user.status == 1 ? true : false || initial.status == 1 ? true: false)
 
   const cancel = (withRefresh?: boolean) => {
     if (withRefresh) {

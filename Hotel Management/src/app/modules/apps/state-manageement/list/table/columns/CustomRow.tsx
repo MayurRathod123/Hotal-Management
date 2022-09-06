@@ -14,6 +14,7 @@ const CustomRow: FC<Props> = ({row}) => (
       return (
         <td
           {...cell.getCellProps()}
+          onClick={()=>{console.log('cell.column.id',cell.column.id)}}
           className={clsx({'text-end min-w-100px': cell.column.id === 'actions'})}
         >
           {cell.render('Cell')}

@@ -1,8 +1,8 @@
 import {KTSVG} from '../../../../../../../_metronic/helpers'
-import {useListView} from '../../core/ListViewProvider'
-import {UsersListFilter} from './UsersListFilter'
+import {useListView} from '../../core/StateListViewProvider'
+import {UsersListFilter} from './ListFilter'
 
-const UsersListToolbar = () => {
+const ListToolbar = () => {
   const {setItemIdForUpdate} = useListView()
   const openAddUserModal = () => {
     setItemIdForUpdate(null)
@@ -22,11 +22,11 @@ const UsersListToolbar = () => {
       {/* begin::Add user */}
       <button type='button' className='btn btn-primary' onClick={openAddUserModal}>
         <KTSVG path='/media/icons/duotune/arrows/arr075.svg' className='svg-icon-2' />
-        Add User
+        Add State
       </button>
       {/* end::Add user */}
     </div>
   )
 }
 
-export {UsersListToolbar}
+export {ListToolbar}

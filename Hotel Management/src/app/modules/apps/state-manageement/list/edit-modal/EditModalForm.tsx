@@ -5,8 +5,8 @@ import {isNotEmpty} from '../../../../../../_metronic/helpers'
 import {StateDataModel, initial, } from '../core/_models'
 import clsx from 'clsx'
 import {useListView} from '../core/StateListViewProvider'
-// import {ListLoading} from '../components/loading/ListLoading'
-import {createState, updateState,} from '../core/_requests'
+import {ListLoading} from '../components/loading/ListLoading'
+import {createStateData, updateStateData,} from '../core/_requests'
 import {useQueryResponse} from '../core/StateQueryResponseProvider'
 
 type Props = {
@@ -15,23 +15,10 @@ type Props = {
 }
 
 const editStateSchema = Yup.object().shape({
-    stateName: Yup.string()
+    state: Yup.string()
     .min(1, 'Minimum 1 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('State Name is required'),
-
-    // price: Yup.number()
-    // .integer("This field should contain an integer")
-    // .required().typeError("The field must contain a number"),
-
-    // stars: Yup.number()
-    // .integer("This field should contain an integer")
-    // .required().typeError("The field must contain a number"),
-   
-    stateDescription: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(500, 'Maximum 500 symbols')
-    .required('Description is required'),
 })
 
 const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
@@ -40,10 +27,7 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
 
   const [userForEdit] = useState<StateDataModel>({
     ...user,
-    stateName: user.stateName || initial.stateName,
-    // price: user.price || initial.price,
-    // stars: user.stars || initial.stars,
-    stateDescription: user.stateDescription || initial.stateDescription,
+    state: user.state || initial.state,
     status: user.status || initial.status,
   })
 
@@ -62,11 +46,11 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
     onSubmit: async (values, {setSubmitting}) => {
       setSubmitting(true)
       try {
-        values.status = status
+        values.status = status ? 1 : 0
         if (isNotEmpty(values.id)) {
-          await updateState(values)
+          await updateStateData(values)
         } else {
-          await createState(values)
+          await createStateData(values)
         }
       } catch (ex) {
         console.error(ex)
@@ -95,110 +79,28 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
             <label className='required fw-bold fs-6 mb-2'>State Name</label>
             <input
               placeholder='State Name'
-              {...formik.getFieldProps('stateName')}
+              {...formik.getFieldProps('state')}
               type='text'
-              name='stateName'
+              name='state'
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
-                {'is-invalid': formik.touched.stateName && formik.errors.stateName},
+                {'is-invalid': formik.touched.state && formik.errors.state},
                 {
-                  'is-valid': formik.touched.stateName && !formik.errors.stateName,
+                  'is-valid': formik.touched.state && !formik.errors.state,
                 }
               )}
               autoComplete='off'
               disabled={formik.isSubmitting || isUserLoading}
             />
-            {formik.touched.stateName && formik.errors.stateName && (
+            {formik.touched.state && formik.errors.state && (
               <div className='fv-plugins-message-container'>
                 <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.stateName}</span>
+                  <span role='alert'>{formik.errors.state}</span>
                 </div>
               </div>
             )}
           </div>
-
-
-          {/* <div className='fv-row mb-7'>
-            <label className='required fw-bold fs-6 mb-2'>Price</label>
-            <input
-              placeholder='Price'
-              {...formik.getFieldProps('price')}
-              type='number'
-              name='price'
-              className={clsx(
-                'form-control form-control-solid mb-3 mb-lg-0',
-                {'is-invalid': formik.touched.price && formik.errors.price},
-                {
-                  'is-valid': formik.touched.price && !formik.errors.price,
-                }
-              )}
-              autoComplete='off'
-              disabled={formik.isSubmitting || isUserLoading}
-            />
-            {formik.touched.price && formik.errors.price && (
-              <div className='fv-plugins-message-container'>
-                <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.price}</span>
-                </div>
-              </div>
-            )}
-          </div> */}
-
-          {/* <div className='fv-row mb-7'>
-            <label className='required fw-bold fs-6 mb-2'>Stars</label>
-            <input
-              placeholder='Stars'
-              {...formik.getFieldProps('stars')}
-              type='number'
-              name='stars'createHotelData
-              className={clsx(
-                'form-control form-control-solid mb-3 mb-lg-0',
-                {'is-invalid': formik.touched.stars && formik.errors.stars},
-                {
-                  'is-valid': formik.touched.stars && !formik.errors.stars,
-                }
-              )}
-              autoComplete='off'
-              disabled={formik.isSubmitting || isUserLoading}
-            />
-            {formik.touched.stars && formik.errors.stars && (
-              <div className='fv-plugins-message-container'>
-                <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.stars}</span>
-                </div>
-              </div>createHotelData
-            )}
-          </div> */}
-
-          <div className='fv-row mb-7'>
-            {/* begin::Label */}
-            <label className='fw-bold fs-6 mb-2'>Description</label>
-            {/* end::Label */}
-
-            {/* begin::Input */}
-            <textarea
-              placeholder='Description'
-              {...formik.getFieldProps('roleDescription')}
-              className={clsx(
-                'form-control form-control-solid mb-3 mb-lg-0',
-                {'is-invalid': formik.touched.stateDescription && formik.errors.stateDescription},
-                {
-                  'is-valid': formik.touched.stateDescription && !formik.errors.stateDescription,
-                }
-              )}
-              name='stateDescription'
-              autoComplete='off'
-              disabled={formik.isSubmitting || isUserLoading}
-            />
-            {/* end::Input */}
-            {formik.touched.stateDescription && formik.errors.stateDescription && (
-              <div className='fv-plugins-message-container'>
-                <div className='fv-help-block'>
-                  <span role={'alert'}>{formik.errors.stateDescription}</span>
-                </div>
-              </div>
-            )}
-          </div>
+          
           <div className='fv-row mb-7'>
             {/* begin::Label */}
             <label className='required fw-bold fs-6 mb-2'>Status</label>
@@ -252,7 +154,7 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
         </div>
         {/* end::Actions */}
       </form>
-      {/* {(formik.isSubmitting || isUserLoading) && <ListLoading />} */}
+      {(formik.isSubmitting || isUserLoading) && <ListLoading />}
     </>
   )
 }

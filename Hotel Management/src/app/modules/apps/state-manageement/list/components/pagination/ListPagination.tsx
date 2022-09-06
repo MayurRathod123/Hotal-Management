@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import clsx from 'clsx'
-import {useQueryResponseLoading, useQueryResponsePagination} from '../../core/QueryResponseProvider'
-import {useQueryRequest} from '../../core/QueryRequestProvider'
+import {useQueryResponseLoading, useQueryResponsePagination} from '../../core/StateQueryResponseProvider'
+import {useQueryRequest} from '../../core/StateQueryRequestProvider'
 
 const mappedLabel = (label: string): string => {
   if (label === '&laquo; Previous') {
@@ -15,7 +15,7 @@ const mappedLabel = (label: string): string => {
   return label
 }
 
-const UsersListPagination = () => {
+const ListPagination = () => {
   const pagination = useQueryResponsePagination()
   const isLoading = useQueryResponseLoading()
   const {updateState} = useQueryRequest()
@@ -65,4 +65,4 @@ const UsersListPagination = () => {
   )
 }
 
-export {UsersListPagination}
+export {ListPagination}

@@ -11,6 +11,6 @@ export type CarQueryResponse = Response<Array<CarDataModel>>
 export const initial: CarDataModel = {
   name: '',
   price:0,
-  status: 0,
+  status:1,
   id: 0,
 }

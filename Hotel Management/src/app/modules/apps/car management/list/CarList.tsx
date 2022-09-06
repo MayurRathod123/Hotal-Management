@@ -16,8 +16,7 @@ const List = () => {
         <Table />
       </KTCard>
       {itemIdForUpdate !== undefined && <EditModal />}
-      {/* {addUserView && <AddUserModal />} */}
-    </>
+     </>
   )
 }
 

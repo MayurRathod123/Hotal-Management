@@ -40,7 +40,7 @@ const AppRoutes: FC = () => {
           )}
         </Route>
       </Routes>
-    </BrowserRouter>
+    </BrowserRouter>  
   )
 }
 

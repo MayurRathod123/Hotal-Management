@@ -7,7 +7,7 @@ import {User} from '../../core/_models'
 
 const tableColumns: ReadonlyArray<Column<User>> = [
   {
-    Header: (props) => <CustomHeader tableProps={props} title='Name' className='min-w-125px' />,
+    Header: (props) => <CustomHeader tableProps={props} title='Car Name' className='min-w-125px' />,
     id: 'name',
     Cell: ({...props}) => <p>{props.data[props.row.index].name}</p>,
   },
@@ -17,16 +17,16 @@ const tableColumns: ReadonlyArray<Column<User>> = [
     Cell: ({...props}) => <p>{props.data[props.row.index].price}</p>,
   },
   {
-    Header: (props) => <CustomHeader tableProps={props} title='status' className='min-w-125px' />,
+    Header: (props) => <CustomHeader tableProps={props} title='Status' className='min-w-125px' />,
     id: 'status',
-    Cell: ({...props}) => {return props.data[props.row.index].status == 1 ? <span className="badge badge-warning">Inactive</span> : <span className="badge badge-success">Active</span>},
+    Cell: ({...props}) => {return props.data[props.row.index].status == 0 ? <span className="badge badge-warning">Inactive</span> : <span className="badge badge-success">Active</span>},
   },
   {
     Header: (props) => (
       <CustomHeader tableProps={props} title='Actions' className='text-center min-w-100px' />
     ),
     id: 'actions',
-    Cell: ({...props}) => <ActionsCell id={props.data[props.row.index].userRoleId} />,
+    Cell: ({...props}) => <ActionsCell id={props.data[props.row.index].id} />,
   },
 ]
 

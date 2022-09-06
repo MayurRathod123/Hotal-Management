@@ -1,6 +1,6 @@
 import {useListView} from '../../core/StateListViewProvider'
-// import {ListToolbar} from './ListToolbar'
-// import {ListGrouping} from './ListGrouping'
+import {ListToolbar} from './ListToolbar'
+import {ListGrouping} from './ListGrouping'
 import {ListSearchComponent} from './ListSearchComponent'
 
 const ListHeader = () => {
@@ -11,7 +11,7 @@ const ListHeader = () => {
       {/* begin::Card toolbar */}
       <div className='card-toolbar'>
         {/* begin::Group actions */}
-        {/* {selected.length > 0 ? <ListGrouping /> : <ListToolbar />} */}
+        {selected.length > 0 ? <ListGrouping /> : <ListToolbar />}
         {/* end::Group actions */}
       </div>
       {/* end::Card toolbar */}

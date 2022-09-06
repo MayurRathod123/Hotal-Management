@@ -10,8 +10,8 @@ import {
   stringifyRequestQuery,
   WithChildren,
 } from '../../../../../../_metronic/helpers'
-import {getStateData} from './_requests'
 import {useQueryRequest} from './StateQueryRequestProvider'
+import { getStateList } from './_requests'
 
 const QueryResponseContext = createResponseContext<any>(initialQueryResponse)
 const StateQueryResponseProvider: FC<WithChildren> = ({children}) => {
@@ -35,7 +35,7 @@ const StateQueryResponseProvider: FC<WithChildren> = ({children}) => {
   } = useQuery(
     `${QUERIES.STATE_LIST}-${query}`,
     () => {
-      return getStateData(query)
+      return getStateList(query)
     },
     {cacheTime: 0, keepPreviousData: true, refetchOnWindowFocus: false}
   )

@@ -3,15 +3,15 @@ import {FC, useEffect} from 'react'
 import {useMutation, useQueryClient} from 'react-query'
 import {MenuComponent} from '../../../../../../../_metronic/assets/ts/components'
 import {ID, KTSVG, QUERIES} from '../../../../../../../_metronic/helpers'
-import {useListView} from '../../core/ListViewProvider'
-import {useQueryResponse} from '../../core/QueryResponseProvider'
-import {deleteUser} from '../../core/_requests'
+import {useListView} from '../../core/StateListViewProvider'
+import {useQueryResponse} from '../../core/StateQueryResponseProvider'
+import { deleteState } from '../../core/_requests'
 
 type Props = {
-  id: ID
+  id:ID
 }
 
-const UserActionsCell: FC<Props> = ({id}) => {
+const ActionsCell: FC<Props> = ({id}) => {
   const {setItemIdForUpdate} = useListView()
   const {query} = useQueryResponse()
   const queryClient = useQueryClient()
@@ -20,15 +20,15 @@ const UserActionsCell: FC<Props> = ({id}) => {
     MenuComponent.reinitialization()
   }, [])
 
-  const openEditModal = () => {
+  const EditModal = () => {
     setItemIdForUpdate(id)
   }
 
-  const deleteItem = useMutation(() => deleteUser(id), {
+  const deleteItem = useMutation(() => deleteState(id), {
     // 💡 response of the mutation is passed to onSuccess
     onSuccess: () => {
       // ✅ update detail view directly
-      queryClient.invalidateQueries([`${QUERIES.USERS_LIST}-${query}`])
+      queryClient.invalidateQueries([`${QUERIES.STATE_LIST}-${query}`])
     },
   })
 
@@ -45,12 +45,14 @@ const UserActionsCell: FC<Props> = ({id}) => {
       </a>
       {/* begin::Menu */}
       <div
-        className='menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4'
+        className='menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-150px py-4'
         data-kt-menu='true'
       >
         {/* begin::Menu item */}
         <div className='menu-item px-3'>
-          <a className='menu-link px-3' onClick={openEditModal}>
+          <a className='menu-link px-3' 
+          onClick={EditModal}
+          >
             Edit
           </a>
         </div>
@@ -73,4 +75,4 @@ const UserActionsCell: FC<Props> = ({id}) => {
   )
 }
 
-export {UserActionsCell}
+export {ActionsCell}

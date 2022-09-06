@@ -8,8 +8,8 @@ const getHotelList = async(query:any): Promise<HotelQueryResponce> => {
 	const req = {
 		pageSize: 10,
 		pageNumber: query.page,
-		sortBy:query.sort,
-		sortOrder: query.order,
+		sortBy:query.sort || 'cts',
+		sortOrder: query.order || 'desc',
 		search:query.search
 	  }
 	return axios

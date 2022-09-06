@@ -1,12 +1,12 @@
 import {FC, useMemo} from 'react'
 import {ID} from '../../../../../../../_metronic/helpers'
-import {useListView} from '../../core/ListViewProvider'
+import {useListView} from '../../core/StateListViewProvider'
 
 type Props = {
   id: ID
 }
 
-const UserSelectionCell: FC<Props> = ({id}) => {
+const SelectionCell: FC<Props> = ({id}) => {
   const {selected, onSelect} = useListView()
   const isSelected = useMemo(() => selected.includes(id), [id, selected])
   return (
@@ -23,4 +23,4 @@ const UserSelectionCell: FC<Props> = ({id}) => {
   )
 }
 
-export {UserSelectionCell}
+export {SelectionCell}

@@ -12,7 +12,7 @@ const EditModalFormWrapper = () => {
     data: user,
     error,
   } = useQuery(
-    `${QUERIES.HOTELS_LIST}-user-${itemIdForUpdate}`,
+    `${QUERIES.STATE_LIST}-user-${itemIdForUpdate}`,
     () => {
       return getStateById(itemIdForUpdate)
     },

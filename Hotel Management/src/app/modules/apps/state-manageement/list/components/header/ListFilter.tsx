@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react'
 import {MenuComponent} from '../../../../../../../_metronic/assets/ts/components'
 import {initialQueryState, KTSVG} from '../../../../../../../_metronic/helpers'
-import {useQueryRequest} from '../../core/QueryRequestProvider'
-import {useQueryResponse} from '../../core/QueryResponseProvider'
+import {useQueryRequest} from '../../core/StateQueryRequestProvider'
+import {useQueryResponse} from '../../core/StateQueryResponseProvider'
 
 const UsersListFilter = () => {
   const {updateState} = useQueryRequest()
