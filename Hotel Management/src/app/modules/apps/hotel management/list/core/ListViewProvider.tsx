@@ -21,8 +21,8 @@ export type ListViewContextProps = {
   setAddUserId?:any
   isAllSelected: boolean
   disabled: boolean
-  addHotel:any,
-  setAddHotel:any,
+  editHotel:any,
+  setEditHotel:any,
 }
 
 export const initialListView: ListViewContextProps = {
@@ -33,8 +33,8 @@ export const initialListView: ListViewContextProps = {
   setItemIdForUpdate:()=>{},
   isAllSelected: false,
   disabled: false,
-  setAddHotel:()=>{},
-  addHotel:[]
+  setEditHotel:()=>{},
+  editHotel:[]
 }
 
 const ListViewContext = createContext<ListViewContextProps>(initialListView)
@@ -46,14 +46,14 @@ const ListViewProvider: FC<WithChildren> = ({children}) => {
   const data = useQueryResponseData()
   const disabled = useMemo(() => calculatedGroupingIsDisabled(isLoading, data), [isLoading, data])
   const isAllSelected = useMemo(() => calculateIsAllDataSelected(data, selected), [data, selected])
-  const [addHotel, setAddHotel] = useState('')
+  const [editHotel, setEditHotel] = useState('')
   return (
     <ListViewContext.Provider
       value={{
         selected,
         itemIdForUpdate,
         setItemIdForUpdate,
-        addHotel, setAddHotel,
+        editHotel, setEditHotel,
         disabled,
         isAllSelected,
         onSelect: (id: ID) => {

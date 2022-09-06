@@ -12,7 +12,7 @@ type Props = {
 }
 
 const ActionsCell: FC<Props> = ({id}) => {
-  const {setItemIdForUpdate,setAddHotel} = useListView()
+  const {setItemIdForUpdate} = useListView()
   const {query} = useQueryResponse()
   const queryClient = useQueryClient()
 
