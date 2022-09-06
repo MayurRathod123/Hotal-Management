@@ -111,7 +111,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
           <div className='fv-row mb-7'>
             <label className='required fw-bold fs-6 mb-2'>State</label>
             <select
-              defaultValue=''
+              defaultValue={''}
               {...formik.getFieldProps('state_id')}
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
@@ -124,6 +124,8 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
               {stateList && stateList.map((value:any)=> <option value={value.id}>{value.state}</option>)}
             </select>
           </div>
+
+
           <div className='fv-row mb-7'>
             <label className='required fw-bold fs-6 mb-2'>Hotel Name</label>
             <input
@@ -199,33 +201,6 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
               <option value="7">7 </option>
             </select>
           </div>
-          {/* <div className='fv-row mb-7'>
-            <label className='required fw-bold fs-6 mb-2'>Stars</label>
-            <input
-              placeholder='Stars'
-              {...formik.getFieldProps('star')}
-              type='number'
-              name='star'
-              className={clsx(
-                'form-control form-control-solid mb-3 mb-lg-0',
-                {'is-invalid': formik.touched.star && formik.errors.star},
-                {
-                  'is-valid': formik.touched.star && !formik.errors.star,
-                }
-              )}
-              autoComplete='off'
-              disabled={formik.isSubmitting || isUserLoading}
-            />
-            {formik.touched.star && formik.errors.star && (
-              <div className='fv-plugins-message-container'>
-                <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.star}</span>
-                </div>
-              </div>
-            )}
-          </div> */}
-
-
           <div className='fv-row mb-7'>
             {/* begin::Label */}
             <label className='required fw-bold fs-6 mb-2'>Status</label>
