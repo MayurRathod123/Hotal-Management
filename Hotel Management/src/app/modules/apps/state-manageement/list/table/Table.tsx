@@ -50,7 +50,7 @@ const Table = () => {
           </tbody>
         </table>
       </div>
-      <ListPagination />
+      {/* <ListPagination /> */}
       {isLoading && <ListLoading />}
     </KTCardBody>
   )
