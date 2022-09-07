@@ -19,6 +19,7 @@ const getHotelList = async(query:any): Promise<HotelQueryResponce> => {
 
 
 const getHotelById = async(id:any): Promise<HotelDataModel | undefined> => {
+	console.log('cddll',id)
 	return axios
 		.get(`${API_URL}/getHotelById.php?id=${id.id}`)
 		.then((response: AxiosResponse<Response<HotelDataModel>>) => response.data)	

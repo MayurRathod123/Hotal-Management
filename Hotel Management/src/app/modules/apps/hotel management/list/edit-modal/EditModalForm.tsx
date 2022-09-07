@@ -43,7 +43,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
 
   const [userForEdit] = useState<HotelDataModel>({
     ...user,
-    state_id:user.state_id || initial.state_id,
+    state_id: user.state_id || initial.state_id,
     hotel_name: user.hotel_name || initial.hotel_name,
     price: user.price || initial.price,
     star: user.star || initial.star,
