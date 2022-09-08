@@ -24,6 +24,14 @@ const editCarSchema = Yup.object().shape({
     .integer("This field should contain an integer")
     .required().typeError("The field must contain a number"),
 
+  sic_charge: Yup.number()
+    .integer("This field should contain an integer")
+    .required().typeError("The field must contain a number"),
+
+  pvt_charge: Yup.number()
+    .integer("This field should contain an integer")
+    .required().typeError("The field must contain a number"),
+
 })
 
 const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
@@ -34,6 +42,8 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
     ...user,
     name: user.name || initial.name,
     price: user.price || initial.price,
+    sic_charge: user.sic_charge || initial.sic_charge,
+    pvt_charge: user.pvt_charge || initial.pvt_charge,
     status: user.status || initial.status,
   })
 
@@ -133,6 +143,58 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
               <div className='fv-plugins-message-container'>
                 <div className='fv-help-block'>
                   <span role='alert'>{formik.errors.price}</span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className='fv-row mb-7'>
+            <label className='required fw-bold fs-6 mb-2'>SIC Price</label>
+            <input
+              placeholder='SIC Price'
+              {...formik.getFieldProps('sic_charge')}
+              type='droupdown'
+              name='sic_charge'
+              className={clsx(
+                'form-control form-control-solid mb-3 mb-lg-0',
+                { 'is-invalid': formik.touched.sic_charge && formik.errors.sic_charge },
+                {
+                  'is-valid': formik.touched.sic_charge && !formik.errors.sic_charge,
+                }
+              )}
+              autoComplete='off'
+              disabled={formik.isSubmitting || isUserLoading}
+            />
+            {formik.touched.sic_charge && formik.errors.sic_charge && (
+              <div className='fv-plugins-message-container'>
+                <div className='fv-help-block'>
+                  <span role='alert'>{formik.errors.sic_charge}</span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className='fv-row mb-7'>
+            <label className='required fw-bold fs-6 mb-2'>PVT Price</label>
+            <input
+              placeholder='PVT Price'
+              {...formik.getFieldProps('pvt_charge')}
+              type='droupdown'
+              name='pvt_charge'
+              className={clsx(
+                'form-control form-control-solid mb-3 mb-lg-0',
+                { 'is-invalid': formik.touched.pvt_charge && formik.errors.pvt_charge },
+                {
+                  'is-valid': formik.touched.pvt_charge && !formik.errors.pvt_charge,
+                }
+              )}
+              autoComplete='off'
+              disabled={formik.isSubmitting || isUserLoading}
+            />
+            {formik.touched.pvt_charge && formik.errors.pvt_charge && (
+              <div className='fv-plugins-message-container'>
+                <div className='fv-help-block'>
+                  <span role='alert'>{formik.errors.pvt_charge}</span>
                 </div>
               </div>
             )}

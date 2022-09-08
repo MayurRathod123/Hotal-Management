@@ -52,7 +52,7 @@ export function setupAxios(axios: any) {
   axios.interceptors.request.use(
     (config: {headers: {Authorization: string}}) => {
       const auth = getAuth()
-      console.log(auth);
+      // console.log(auth);
       if (auth && auth.authToken) {
         config.headers.Authorization = `Bearer ${auth.authToken}`
       }

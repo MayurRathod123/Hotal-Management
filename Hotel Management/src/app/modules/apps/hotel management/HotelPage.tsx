@@ -35,5 +35,4 @@ const HotelPage = () => {
     </Routes>
   )
 }
-
 export default HotelPage;

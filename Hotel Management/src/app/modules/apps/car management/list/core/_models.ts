@@ -1,9 +1,11 @@
 import {ID,Response} from '../../../../../../_metronic/helpers'
 export type CarDataModel = {
+  id?: ID
   name?: String
   price:number
   status?:number
-  id?: ID
+  sic_charge?:number
+  pvt_charge?:number
 }
 
 export type CarQueryResponse = Response<Array<CarDataModel>>
@@ -13,4 +15,6 @@ export const initial: CarDataModel = {
   price:0,
   status:1,
   id: 0,
+  sic_charge:0,
+  pvt_charge:0,
 }

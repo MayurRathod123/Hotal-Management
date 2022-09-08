@@ -48,7 +48,7 @@ export function Login() {
         }
         saveAuth(auth.data)
        const {data:user} = await getUserByToken(auth.data.authToken)
-       console.log(user);
+      //  console.log(user);
         setCurrentUser(auth.data.authToken)
         
       setLoading(false)
