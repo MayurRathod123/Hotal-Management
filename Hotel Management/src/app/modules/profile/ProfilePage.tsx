@@ -5,7 +5,7 @@ import {Projects} from './components/Projects'
 import {Campaigns} from './components/Campaigns'
 import {Documents} from './components/Documents'
 import {Connections} from './components/Connections'
-import {ProfileHeader} from './ProfileHeader'
+// import {ProfileHeader} from './ProfileHeader'
 
 const profileBreadCrumbs: Array<PageLink> = [
   {
@@ -27,7 +27,7 @@ const ProfilePage = () => (
     <Route
       element={
         <>
-          <ProfileHeader />
+          {/* <ProfileHeader /> */}
           <Outlet />
         </>
       }
@@ -37,7 +37,7 @@ const ProfilePage = () => (
         element={
           <>
             <PageTitle breadcrumbs={profileBreadCrumbs}>Overview</PageTitle>
-            <Overview />
+            {/* <Overview /> */}
           </>
         }
       />
@@ -46,7 +46,7 @@ const ProfilePage = () => (
         element={
           <>
             <PageTitle breadcrumbs={profileBreadCrumbs}>Projects</PageTitle>
-            <Projects />
+            {/* <Projects /> */}
           </>
         }
       />
@@ -55,7 +55,7 @@ const ProfilePage = () => (
         element={
           <>
             <PageTitle breadcrumbs={profileBreadCrumbs}>Campaigns</PageTitle>
-            <Campaigns />
+            {/* <Campaigns /> */}
           </>
         }
       />
@@ -64,7 +64,7 @@ const ProfilePage = () => (
         element={
           <>
             <PageTitle breadcrumbs={profileBreadCrumbs}>Documents</PageTitle>
-            <Documents />
+            {/* <Documents /> */}
           </>
         }
       />
@@ -73,7 +73,7 @@ const ProfilePage = () => (
         element={
           <>
             <PageTitle breadcrumbs={profileBreadCrumbs}>Connections</PageTitle>
-            <Connections />
+            {/* <Connections /> */}
           </>
         }
       />

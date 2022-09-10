@@ -1,11 +1,11 @@
-import {lazy, FC, Suspense} from 'react'
-import {Route, Routes, Navigate} from 'react-router-dom'
-import {MasterLayout} from '../../_metronic/layout/MasterLayout'
+import { lazy, FC, Suspense } from 'react'
+import { Route, Routes, Navigate } from 'react-router-dom'
+import { MasterLayout } from '../../_metronic/layout/MasterLayout'
 import TopBarProgress from 'react-topbar-progress-indicator'
-import {DashboardWrapper} from '../pages/dashboard/DashboardWrapper'
-import {MenuTestPage} from '../pages/MenuTestPage'
-import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
-import {WithChildren} from '../../_metronic/helpers'
+import { DashboardWrapper } from '../pages/dashboard/DashboardWrapper'
+import { MenuTestPage } from '../pages/MenuTestPage'
+import { getCSSVariableValue } from '../../_metronic/assets/ts/_utils'
+import { WithChildren } from '../../_metronic/helpers'
 import BuilderPageWrapper from '../pages/layout-builder/BuilderPageWrapper'
 
 const PrivateRoutes = () => {
@@ -13,14 +13,17 @@ const PrivateRoutes = () => {
   const WizardsPage = lazy(() => import('../modules/wizards/WizardsPage'))
   const AccountPage = lazy(() => import('../modules/accounts/AccountPage'))
   const WidgetsPage = lazy(() => import('../modules/widgets/WidgetsPage'))
-  const ChatPage = lazy(() => import('../modules/apps/chat/ChatPage'))
-  const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
+  const HotelPage = lazy(() => import('../modules/apps/hotel management/HotelPage'))
+  const CarPage = lazy(() => import('../modules/apps/car management/CarPage'))
+  const StatePage = lazy(() => import('../modules/apps/state-manageement/StatePage'))
+
+
 
   return (
     <Routes>
       <Route element={<MasterLayout />}>
         {/* Redirect to Dashboard after success login/registartion */}
-        <Route path='auth/*' element={<Navigate to='/dashboard' />} />
+        <Route path='auth/*' element={<Navigate to='/hotel-management/hotel' />} />
         {/* Pages */}
         <Route path='dashboard' element={<DashboardWrapper />} />
         <Route path='builder' element={<BuilderPageWrapper />} />
@@ -59,21 +62,31 @@ const PrivateRoutes = () => {
           }
         />
         <Route
-          path='apps/chat/*'
+          path='/hotel-management/*'
           element={
             <SuspensedView>
-              <ChatPage />
+              <HotelPage />
+            </SuspensedView>
+          }
+        />
+
+        <Route
+          path='/car-management/*'
+          element={
+            <SuspensedView>
+              <CarPage />
             </SuspensedView>
           }
         />
         <Route
-          path='apps/user-management/*'
+          path='/state-management/*'
           element={
             <SuspensedView>
-              <UsersPage />
+              <StatePage />
             </SuspensedView>
           }
         />
+
         {/* Page Not Found */}
         <Route path='*' element={<Navigate to='/error/404' />} />
       </Route>
@@ -81,7 +94,7 @@ const PrivateRoutes = () => {
   )
 }
 
-const SuspensedView: FC<WithChildren> = ({children}) => {
+const SuspensedView: FC<WithChildren> = ({ children }) => {
   const baseColor = getCSSVariableValue('--kt-primary')
   TopBarProgress.config({
     barColors: {
@@ -93,4 +106,4 @@ const SuspensedView: FC<WithChildren> = ({children}) => {
   return <Suspense fallback={<TopBarProgress />}>{children}</Suspense>
 }
 
-export {PrivateRoutes}
+export { PrivateRoutes }

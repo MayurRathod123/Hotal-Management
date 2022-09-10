@@ -32,9 +32,9 @@ const AsideDefault: FC = () => {
       data-kt-drawer-toggle='#kt_aside_mobile_toggle'
       ref={asideRef}
     >
-      {/* begin::Brand */}
+      begin::Brand
       <div className='aside-logo flex-column-auto' id='kt_aside_logo'>
-        {/* begin::Logo */}
+        {/* begin::Logo
         {aside.theme === 'dark' && (
           <Link to='/dashboard'>
             <img
@@ -52,11 +52,11 @@ const AsideDefault: FC = () => {
               src={toAbsoluteUrl('/media/logos/default.svg')}
             />
           </Link>
-        )}
+        )} */}
         {/* end::Logo */}
 
         {/* begin::Aside toggler */}
-        {aside.minimize && (
+        {/* {aside.minimize && (
           <div
             id='kt_aside_toggle'
             className='btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle'
@@ -71,7 +71,7 @@ const AsideDefault: FC = () => {
               className={'svg-icon-1 rotate-180'}
             />
           </div>
-        )}
+        )} */}
         {/* end::Aside toggler */}
       </div>
       {/* end::Brand */}
@@ -83,7 +83,7 @@ const AsideDefault: FC = () => {
       {/* end::Aside menu */}
 
       {/* begin::Footer */}
-      <div className='aside-footer flex-column-auto pt-5 pb-7 px-5' id='kt_aside_footer'>
+      {/* <div className='aside-footer flex-column-auto pt-5 pb-7 px-5' id='kt_aside_footer'>
         <a
           target='_blank'
           className='btn btn-custom btn-primary w-100'
@@ -98,7 +98,7 @@ const AsideDefault: FC = () => {
             <KTSVG path='/media/icons/duotune/general/gen005.svg' />
           </span>
         </a>
-      </div>
+      </div> */}
       {/* end::Footer */}
     </div>
   )

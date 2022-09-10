@@ -21,8 +21,8 @@ const loginSchema = Yup.object().shape({
 })
 
 const initialValues = {
-  email: 'admin@demo.com',
-  password: 'demo',
+  email: 'roy@woyce.io',
+  password: 'Jd@123',
 }
 
 /*
@@ -42,19 +42,23 @@ export function Login() {
       setLoading(true)
       try {
         const {data: auth} = await login(values.email, values.password)
+        // console.log(auth)
         if(!auth.data){
           throw('data not found')
         }
-        saveAuth(auth)
-        // const {data: user} = await getUserByToken(auth.api_token)
-        setCurrentUser(auth.data)
+        saveAuth(auth.data)
+       const {data:user} = await getUserByToken(auth.data.authToken)
+      //  console.log(user);
+        setCurrentUser(auth.data.authToken)
+        
+      setLoading(false)
       } catch (error) {
         console.error(error)
         saveAuth(undefined)
         setStatus('The login detail is incorrect')
         setSubmitting(false)
         setLoading(false)
-      }
+      } 
     },
   })
 
@@ -174,42 +178,6 @@ export function Login() {
           )}
         </button>
 
-        {/* begin::Separator */}
-        {/* <div className='text-center text-muted text-uppercase fw-bolder mb-5'>or</div> */}
-        {/* end::Separator */}
-
-        {/* begin::Google link */}
-        {/* <a href='#' className='btn btn-flex flex-center btn-light btn-lg w-100 mb-5'>
-          <img
-            alt='Logo'
-            src={toAbsoluteUrl('/media/svg/brand-logos/google-icon.svg')}
-            className='h-20px me-3'
-          />
-          Continue with Google
-        </a> */}
-        {/* end::Google link */}
-
-        {/* begin::Google link */}
-        {/* <a href='#' className='btn btn-flex flex-center btn-light btn-lg w-100 mb-5'>
-          <img
-            alt='Logo'
-            src={toAbsoluteUrl('/media/svg/brand-logos/facebook-4.svg')}
-            className='h-20px me-3'
-          />
-          Continue with Facebook
-        </a> */}
-        {/* end::Google link */}
-
-        {/* begin::Google link */}
-        {/* <a href='#' className='btn btn-flex flex-center btn-light btn-lg w-100'>
-          <img
-            alt='Logo'
-            src={toAbsoluteUrl('/media/svg/brand-logos/apple-black.svg')}
-            className='h-20px me-3'
-          />
-          Continue with Apple
-        </a> */}
-        {/* end::Google link */}
       </div>
       {/* end::Action */}
     </form>

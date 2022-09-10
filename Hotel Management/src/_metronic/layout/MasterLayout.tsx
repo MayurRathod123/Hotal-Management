@@ -48,13 +48,13 @@ const MasterLayout = () => {
                 </Content>
               </div>
             </div>
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </div>
 
         {/* begin:: Drawers */}
         <ActivityDrawer />
-        <RightToolbar />
+        {/* <RightToolbar /> */}
         <DrawerMessenger />
         {/* end:: Drawers */}
 
