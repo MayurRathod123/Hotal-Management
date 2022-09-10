@@ -20,7 +20,7 @@ const Table = () => {
   return (
     <KTCardBody className='py-4'>
       <div className='table-responsive'>
-        <table
+        <table 
           id='kt_table_users'
           className='table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer'
           {...getTableProps()}
@@ -57,4 +57,3 @@ const Table = () => {
 }
 
 export {Table}
-  

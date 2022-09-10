@@ -23,6 +23,41 @@ const tableColumns: ReadonlyArray<Column<User>> = [
     Cell: ({...props}) => <p>{props.data[props.row.index].price}</p>,
   },
   {
+    Header: (props) => <CustomHeader tableProps={props} title='CP Price' className='min-w-125px' />,
+    id: 'cp_price',
+    Cell: ({...props}) => <p>{props.data[props.row.index].cp_price}</p>,
+  },
+  {
+    Header: (props) => <CustomHeader tableProps={props} title='MAP Price' className='min-w-125px' />,
+    id: 'map_price',
+    Cell: ({...props}) => <p>{props.data[props.row.index].map_price}</p>,
+  },
+  {
+    Header: (props) => <CustomHeader tableProps={props} title='AP Price' className='min-w-125px' />,
+    id: 'ap_price',
+    Cell: ({...props}) => <p>{props.data[props.row.index].ap_price}</p>,
+  },
+  {
+    Header: (props) => <CustomHeader tableProps={props} title='Pickup Price' className='min-w-125px' />,
+    id: 'pickup_price',
+    Cell: ({...props}) => <p>{props.data[props.row.index].pickup_price}</p>,
+  },
+  {
+    Header: (props) => <CustomHeader tableProps={props} title='Drop Price' className='min-w-125px' />,
+    id: 'drop_price',
+    Cell: ({...props}) => <p>{props.data[props.row.index].drop_price}</p>,
+  },
+  {
+    Header: (props) => <CustomHeader tableProps={props} title='Adult with mattress Price' className='min-w-125px' />,
+    id: 'adult_with_mattress',
+    Cell: ({...props}) => <p>{props.data[props.row.index].adult_with_mattress}</p>,
+  },
+  {
+    Header: (props) => <CustomHeader tableProps={props} title='Child with mattress Price' className='min-w-125px' />,
+    id: 'child_with_mattress',
+    Cell: ({...props}) => <p>{props.data[props.row.index].child_with_mattress}</p>,
+  },
+  {
     Header: (props) => <CustomHeader tableProps={props} title='Stars' className='min-w-125px' />,
     id: 'star',
     Cell: ({...props}) => <p>{props.data[props.row.index].star}</p>,
