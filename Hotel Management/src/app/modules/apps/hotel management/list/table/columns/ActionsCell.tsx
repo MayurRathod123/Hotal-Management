@@ -6,6 +6,8 @@ import {ID, KTSVG, QUERIES} from '../../../../../../../_metronic/helpers'
 import {useListView} from '../../core/ListViewProvider'
 import {useQueryResponse} from '../../core/QueryResponseProvider'
 import {deleteHotel} from '../../core/_requests'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 type Props = {
   id:ID
@@ -31,6 +33,29 @@ const ActionsCell: FC<Props> = ({id}) => {
       queryClient.invalidateQueries([`${QUERIES.HOTELS_LIST}-${query}`])
     },
   })
+  
+  const MySwal = withReactContent(Swal)
+  const deleteItemData= ()=>{
+    MySwal.fire({
+      title: 'Are you sure?',
+      text: "You won't to be delete Hotel?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+      await deleteItem.mutateAsync()
+        MySwal.fire(
+          'Deleted!',
+          'Hotel has been deleted.',
+          'success'
+        )
+      } 
+    }) 
+  }
+
 
   return (
     <>
@@ -63,7 +88,8 @@ const ActionsCell: FC<Props> = ({id}) => {
           <a
             className='menu-link px-3'
             data-kt-users-table-filter='delete_row'
-            onClick={async () => await deleteItem.mutateAsync()}
+            // onClick={async () => await deleteItem.mutateAsync()}
+            onClick={()=>deleteItemData()}
           >
             Delete
           </a>

@@ -8,9 +8,27 @@ import { useListView } from '../core/ListViewProvider'
 import { ListLoading } from '../components/loading/ListLoading'
 import { createHotelData, getAllState, updateHotelData, } from '../core/_requests'
 import { useQueryResponse } from '../core/QueryResponseProvider'
-import { Console } from 'console'
 import { useQuery } from 'react-query'
+import Swal from 'sweetalert2'
 
+const saveHotelToast = ()=>{ 
+    const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+  
+  Toast.fire({
+    icon: 'success',
+    title: 'Hotel save successfully',
+  })
+}
 
 type Props = {
   isUserLoading: boolean
@@ -464,6 +482,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
             className='btn btn-primary'
             data-kt-users-modal-action='submit'
             disabled={isUserLoading || formik.isSubmitting || !formik.isValid || !formik.touched}
+            onClick={saveHotelToast}
           >
             <span className='indicator-label'>Submit</span>
             {(formik.isSubmitting || isUserLoading) && (
