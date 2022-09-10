@@ -6,7 +6,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 const getStateList = async(query:any): Promise<StateQueryResponce> => {
 	const req = {
-		pageSize: 7,
+		pageSize: 30,
 		pageNumber: query.page,
 		sortBy:query.sort || 'cts',
 		sortOrder: query.order || 'desc',
