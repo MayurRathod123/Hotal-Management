@@ -6,7 +6,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 const getHotelList = async(query:any): Promise<HotelQueryResponce> => {
 	const req = {
-		pageSize: 30,
+		pageSize: 7,
 		pageNumber: query.page,
 		sortBy:query.sort || 'cts',
 		sortOrder: query.order || 'desc',
