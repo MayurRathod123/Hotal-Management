@@ -99,4 +99,3 @@ const AuthInit: FC<WithChildren> = ({children}) => {
 }
 
 export {AuthProvider, AuthInit, useAuth}
-  
