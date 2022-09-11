@@ -67,38 +67,57 @@ const useQueryResponsePagination = () => {
   if (!response || !response.pager) {
     return defaultPaginationState
   }
-  const linkArray = []
+  let linkArray = []
   const numberOfPage = Math.ceil(response.pager?.totalRecords / response.pager?.pageSize)
+  //console.log('numberof page', numberOfPage, typeof response.pager.pageNo, response.pager.pageNo + 1)
   for (let index = 1; index <= numberOfPage; index++) {
-    linkArray.push({
-      url: '/?page=' + index,
-      label: `${index}`,
-      active: response.pager.pageNo == index,
-      page: index,
-    })
+      linkArray.push({
+        url: '/?page=' + index,
+        label: `${index}`,
+        active: response.pager.pageNo == index,
+        page: index,
+      })
   }
+  let start = 0
+  let end = 0
+  if(response.pager.pageNo == 1){
+    start = 0
+    end = 3
+  }else if(response.pager.pageNo == numberOfPage)
+  {
+    start = numberOfPage - 3
+    end = numberOfPage
+  }
+  else{
+    start = Number(response.pager.pageNo) - 2
+    end = start + 3
+  }
+
+  linkArray = linkArray.slice(start, end)
+
+  // linkArray = linkArray.slice(response.pager.pageNo == 1 ? 0: response.pager.pageNo - 2 ,Number(response.pager.pageNo)+3)
   const newPagination = {
     page: response.pager.pageNo,
     items_per_page: response.pager.pageSize,
     last_page: numberOfPage,
     total: response.pager.totalRecords,
     links: [
-      {
+      ...response.pager.pageNo == 1 ? []:[{
         url: null,
         label: '&laquo; Previous',
         active: false,
-        page: response.pager.pageNo - 1 < 1 ? response.pager.pageNo : response.pager.pageNo - 1,
-      },
+        page: Number(response.pager.pageNo) - 1 < 1 ? Number(response.pager.pageNo) : Number(response.pager.pageNo) - 1,
+      }],
       ...linkArray,
-      {
+      ...response.pager.pageNo == numberOfPage ? []:[{
         url: '/?page=2',
         label: 'Next &raquo;',
         active: false,
         page:
-          response.pager.pageNo + 1 > numberOfPage
-            ? response.pager.pageNo
-            : response.pager.pageNo + 1,
-      },
+          Number(response.pager.pageNo) + 1 > numberOfPage
+            ? Number(response.pager.pageNo) 
+            : Number(response.pager.pageNo) + 1,
+      }],
     ],
   }
   return newPagination
