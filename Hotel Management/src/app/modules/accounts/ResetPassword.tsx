@@ -5,6 +5,27 @@ import { useFormik } from 'formik'
 import { IUpdatePassword, updatePassword } from './components/settings/SettingsModel'
 import { resetPassword } from '../auth/core/_requests'
 import clsx from 'clsx'
+import Swal from 'sweetalert2'
+
+
+const resetToast = ()=>{ 
+  const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
+Toast.fire({
+  icon: 'success',
+  title: 'Reset password successfully',
+})
+}
 
 const passwordFormValidationSchema = Yup.object().shape({
   oldPassword: Yup.string()
@@ -38,15 +59,25 @@ const ResetPassword: React.FC = () => {
     validationSchema: passwordFormValidationSchema,
     onSubmit: (values, { resetForm, setSubmitting }) => {
       setLoading2(true)
-      setTimeout(() => {
-        resetPassword(
-          values.oldPassword,
-          values.newPassword,
-          values.userId = userId
-        )
+      resetPassword(
+        values.oldPassword,
+        values.newPassword,
+        values.userId = userId
+      ).then((res) => {
+        if (res && res.status === 200) {
+          resetToast();
+          resetForm({
+            values:{
+              oldPassword:'',
+              newPassword:'',
+              userId:0, 
+              passwordConfirmation:'',
+            }})
+        }
+        console.log(res, 'responce data')
         setLoading2(false)
-        setPasswordForm(false)
-      }, 1000)
+      })
+        .catch((error) => { console.log(error.message) })
     },
   })
 
