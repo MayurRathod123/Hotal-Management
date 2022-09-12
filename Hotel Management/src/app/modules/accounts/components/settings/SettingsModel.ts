@@ -1,3 +1,5 @@
+import { ID } from "../../../../../_metronic/helpers"
+
 export interface IProfileDetails {
   avatar: string
   fName: string
@@ -22,9 +24,10 @@ export interface IUpdateEmail {
 }
 
 export interface IUpdatePassword {
-  currentPassword: string
+  oldPassword: string
   newPassword: string
   passwordConfirmation: string
+  userId:number
 }
 
 export interface IConnectedAccounts {
@@ -94,7 +97,8 @@ export const updateEmail: IUpdateEmail = {
 }
 
 export const updatePassword: IUpdatePassword = {
-  currentPassword: '',
+  userId:0,
+  oldPassword: '',
   newPassword: '',
   passwordConfirmation: '',
 }

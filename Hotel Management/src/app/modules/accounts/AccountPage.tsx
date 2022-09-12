@@ -1,14 +1,14 @@
 import React from 'react'
 import {Navigate, Route, Routes, Outlet} from 'react-router-dom'
 import {PageLink, PageTitle} from '../../../_metronic/layout/core'
-import {Overview} from './components/Overview'
+// import {Overview} from './components/Overview'
 import {Settings} from './components/settings/Settings'
 import {AccountHeader} from './AccountHeader'
 
 const accountBreadCrumbs: Array<PageLink> = [
   {
-    title: 'Account',
-    path: '/crafted/account/overview',
+    title: 'Setting',
+    path: '/crafted/account/settings',
     isSeparator: false,
     isActive: false,
   },
@@ -31,7 +31,7 @@ const AccountPage: React.FC = () => {
           </>
         }
       >
-        <Route
+        {/* <Route
           path='overview'
           element={
             <>
@@ -39,7 +39,7 @@ const AccountPage: React.FC = () => {
               <Overview />
             </>
           }
-        />
+        /> */}
         <Route
           path='settings'
           element={
@@ -49,10 +49,10 @@ const AccountPage: React.FC = () => {
             </>
           }
         />
-        <Route index element={<Navigate to='/crafted/account/overview' />} />
+        <Route index element={<Navigate to='/crafted/account/settings' />} />
       </Route>
     </Routes>
   )
 }
 
-export default AccountPage
+export default AccountPage;
