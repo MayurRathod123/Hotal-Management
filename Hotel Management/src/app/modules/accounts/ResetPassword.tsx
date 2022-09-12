@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { IUpdatePassword, updatePassword } from './components/settings/SettingsModel'
 import { resetPassword } from '../auth/core/_requests'
-import { Outlet } from 'react-router-dom'
+import clsx from 'clsx'
 
 const passwordFormValidationSchema = Yup.object().shape({
   oldPassword: Yup.string()
@@ -22,16 +22,16 @@ const passwordFormValidationSchema = Yup.object().shape({
     .oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
 })
 
-  const ResetPassword: React.FC = () => {
+const ResetPassword: React.FC = () => {
   const [passwordUpdateData, setPasswordUpdateData] = useState<IUpdatePassword>(updatePassword)
   const [showPasswordForm, setPasswordForm] = useState<boolean>(false)
   const [loading2, setLoading2] = useState(false)
   const [userId, setUserId] = useState<any>()
 
-  useEffect(()=>{
+  useEffect(() => {
     const Id = JSON.parse(localStorage.getItem('kt-auth-react-v') || '');
     setUserId(Id.userId)
-   },[])
+  }, [])
 
   const formik2 = useFormik<IUpdatePassword>({
     initialValues: { ...passwordUpdateData, },
@@ -43,8 +43,8 @@ const passwordFormValidationSchema = Yup.object().shape({
           values.oldPassword,
           values.newPassword,
           values.userId = userId
-          )
-        setLoading2(false)    
+        )
+        setLoading2(false)
         setPasswordForm(false)
       }, 1000)
     },
@@ -52,150 +52,129 @@ const passwordFormValidationSchema = Yup.object().shape({
 
   return (
     <>
-    <div className='d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed'>
-    <div className='d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20'>
-    <div className='w-lg-500px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto'>
-          {/* <Outlet /> */}
-      {/* <div
-        className='card-header border-0 cursor-pointer'
-        role='button'
-        data-bs-toggle='collapse'
-        data-bs-target='#kt_account_signin_method' */}
-       {/* > */}
-        {/* <div className='card-title m-0'>
-          <h3 className='fw-bolder m-0'>Reset Password</h3>
-        </div> */}
-      {/* </div> */}
+      <form
+        className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework'
+        noValidate
+        id='kt_login_password_reset_form'
+        onSubmit={formik2.handleSubmit}
+      >
+        <div className='text-center mb-10'>
+          {/* begin::Title */}
+          <h1 className='text-dark mb-3'>Reset Password</h1>
+          {/* end::Title */}
 
-      <div id='kt_account_signin_method' className='collapse show'>
-        <div className='card-body border-top p-9'>
-          <div className='d-flex flex-wrap align-items-center mb-10'>
-            {/* <div id='kt_signin_password' className={' ' + (showPasswordForm && 'd-none')}>
-              <div className='fs-6 fw-bolder mb-1'>Password</div>
-              <div className='fw-bold text-gray-600'>************</div>
-            </div> */}
+          {/* begin::Link */}
+          <div className='text-gray-400 fw-bold fs-4'>Enter your Old Password to reset your password.</div>
+          {/* end::Link */}
+        </div>
 
-            {/* <div
-              id='kt_signin_password_edit'
-              className={'flex-row-fluid ' + (!showPasswordForm && 'd-none')}
-            > */}
-              <form
-                onSubmit={formik2.handleSubmit}
-                id='kt_signin_change_password'
-                className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework'
-                noValidate
-              >
-                <div className='row mb-1'>
-                  <div className='col-lg-4'>
-                    <div className='fv-row mb-0'>
-                      <label htmlFor='oldpassword' className='form-label fs-6 fw-bolder mb-3'>
-                        Old Password
-                      </label>
-                      <input
-                        type='password'
-                        className='form-control form-control-lg form-control-solid '
-                        id='oldpassword'
-                        {...formik2.getFieldProps('oldPassword')}
-                      />
-                      {formik2.touched.oldPassword && formik2.errors.oldPassword && (
-                        <div className='fv-plugins-message-container'>
-                          <div className='fv-help-block'>{formik2.errors.oldPassword}</div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className='col-lg-4'>
-                    <div className='fv-row mb-0'>
-                      <label htmlFor='newpassword' className='form-label fs-6 fw-bolder mb-3'>
-                        New Password
-                      </label>
-                      <input
-                        type='password'
-                        className='form-control form-control-lg form-control-solid '
-                        id='newpassword'
-                        {...formik2.getFieldProps('newPassword')}
-                      />
-                      {formik2.touched.newPassword && formik2.errors.newPassword && (
-                        <div className='fv-plugins-message-container'>
-                          <div className='fv-help-block'>{formik2.errors.newPassword}</div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className='col-lg-4'>
-                    <div className='fv-row mb-0'>
-                      <label htmlFor='confirmpassword' className='form-label fs-6 fw-bolder mb-3'>
-                        Confirm New Password
-                      </label>
-                      <input
-                        type='password'
-                        className='form-control form-control-lg form-control-solid '
-                        id='confirmpassword'
-                        {...formik2.getFieldProps('passwordConfirmation')}
-                      />
-                      {formik2.touched.passwordConfirmation && formik2.errors.passwordConfirmation && (
-                        <div className='fv-plugins-message-container'>
-                          <div className='fv-help-block'>{formik2.errors.passwordConfirmation}</div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <div className='form-text mb-5'>
-                  Password must be at least 8 character and contain symbols
-                </div>
-
-                <div className='d-flex'>
-                  <button
-                    id='kt_password_submit'
-                    type='submit'
-                    className='btn btn-primary me-2 px-6'
-                  >
-                    {!loading2 && 'Update Password'}
-                    {loading2 && (
-                      <span className='indicator-progress' style={{ display: 'block' }}>
-                        Please wait...{' '}
-                        <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
-                      </span>
-                    )}
-                  </button>
-                  <button
-                    onClick={() => {
-                      setPasswordForm(false)
-                    }}
-                    id='kt_password_cancel'
-                    type='button'
-                    className='btn btn-color-gray-400 btn-active-light-primary px-6'
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
+        {/* begin::Form group */}
+        <div className='fv-row mb-10'>
+          <label htmlFor='oldpassword' className='form-label fw-bolder text-gray-900 fs-6'>Old Password</label>
+          <input
+            type='password'
+            id='oldpassword'
+            placeholder=''
+            autoComplete='off'
+            {...formik2.getFieldProps('oldPassword')}
+            className={clsx(
+              'form-control form-control-lg form-control-solid',
+              { 'is-invalid': formik2.touched.oldPassword && formik2.errors.oldPassword },
+              {
+                'is-valid': formik2.touched.oldPassword && !formik2.errors.oldPassword,
+              }
+            )}
+          />
+          {formik2.touched.oldPassword && formik2.errors.oldPassword && (
+            <div className='fv-plugins-message-container'>
+              <div className='fv-help-block'>
+                <span role='alert'>{formik2.errors.oldPassword}</span>
+              </div>
             </div>
+          )}
+        </div>
 
-            {/* <div
-              id='kt_signin_password_button'
-              className={'ms-auto ' + (showPasswordForm && 'd-none')}
-            >
-              <button
-                onClick={() => {
-                  setPasswordForm(true)
-                }}
-                className='btn btn-light btn-active-light-primary'
-              >
-                Reset Password
-              </button>
-            </div> */}
-          </div>
+        <div className='fv-row mb-10'>
+          <label htmlFor='newpassword' className='form-label fw-bolder text-gray-900 fs-6'>New Password</label>
+          <input
+            type='password'
+            id='newpassword'
+            placeholder=''
+            autoComplete='off'
+            {...formik2.getFieldProps('newPassword')}
+            className={clsx(
+              'form-control form-control-lg form-control-solid',
+              { 'is-invalid': formik2.touched.newPassword && formik2.errors.newPassword },
+              {
+                'is-valid': formik2.touched.newPassword && !formik2.errors.newPassword,
+              }
+            )}
+          />
+          {formik2.touched.newPassword && formik2.errors.newPassword && (
+            <div className='fv-plugins-message-container'>
+              <div className='fv-help-block'>
+                <span role='alert'>{formik2.errors.newPassword}</span>
+              </div>
+            </div>
+          )}
         </div>
+
+        <div className='fv-row mb-10'>
+          <label htmlFor='confirmpassword' className='form-label fw-bolder text-gray-900 fs-6'>Confirm New Password</label>
+          <input
+            type='password'
+            id='confirmpassword'
+            placeholder=''
+            autoComplete='off'
+            {...formik2.getFieldProps('passwordConfirmation')}
+            className={clsx(
+              'form-control form-control-lg form-control-solid',
+              { 'is-invalid': formik2.touched.passwordConfirmation && formik2.errors.passwordConfirmation },
+              {
+                'is-valid': formik2.touched.passwordConfirmation && !formik2.errors.passwordConfirmation,
+              }
+            )}
+          />
+          {formik2.touched.passwordConfirmation && formik2.errors.passwordConfirmation && (
+            <div className='fv-plugins-message-container'>
+              <div className='fv-help-block'>
+                <span role='alert'>{formik2.errors.passwordConfirmation}</span>
+              </div>
+            </div>
+          )}
         </div>
-      </div>
-     </div>
-     </>
+
+        <div className='form-text mb-5'>
+          Password must be at least 8 character and contain symbols
+        </div>
+
+        <div className='d-flex'>
+          <button
+            id='kt_password_submit'
+            type='submit'
+            className='btn btn-primary me-2 px-6'
+          >
+            {!loading2 && 'Update Password'}
+            {loading2 && (
+              <span className='indicator-progress' style={{ display: 'block' }}>
+                Please wait...{' '}
+                <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+              </span>
+            )}
+          </button>
+          <button
+            onClick={() => {
+              setPasswordForm(false)
+            }}
+            id='kt_password_cancel'
+            type='button'
+            className='btn btn-color-gray-400 btn-active-light-primary px-6'
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </>
   )
 }
-
 export { ResetPassword }

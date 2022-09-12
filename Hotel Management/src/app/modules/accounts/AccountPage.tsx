@@ -5,9 +5,7 @@ import { AuthLayout } from '../auth'
 // import {Overview} from './components/Overview'
 // import {Settings} from './components/settings/Settings'
 import {AccountHeader} from './AccountHeader'
-import { ResetPassword2 } from './ForgotPassword'
 import { ResetPassword } from './ResetPassword'
-import { ResetPassword3 } from './resetPassword3'
 
 const accountBreadCrumbs: Array<PageLink> = [
   {
@@ -41,9 +39,7 @@ const AccountPage: React.FC = () => {
           element={
             <>
               <PageTitle breadcrumbs={accountBreadCrumbs}>Reset Password</PageTitle>
-              {/* <ResetPassword /> */}
-              <ResetPassword2 />
-              {/* <ResetPassword3/> */}
+              <ResetPassword/>
             </>
 
           }
