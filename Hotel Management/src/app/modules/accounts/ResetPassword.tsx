@@ -4,6 +4,7 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { IUpdatePassword, updatePassword } from './components/settings/SettingsModel'
 import { resetPassword } from '../auth/core/_requests'
+import { Outlet } from 'react-router-dom'
 
 const passwordFormValidationSchema = Yup.object().shape({
   oldPassword: Yup.string()
@@ -51,7 +52,10 @@ const passwordFormValidationSchema = Yup.object().shape({
 
   return (
     <>
-    <div className='card mb-5 mb-xl-10'>
+    <div className='d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed'>
+    <div className='d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20'>
+    <div className='w-lg-500px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto'>
+          {/* <Outlet /> */}
       {/* <div
         className='card-header border-0 cursor-pointer'
         role='button'
@@ -185,7 +189,8 @@ const passwordFormValidationSchema = Yup.object().shape({
                 Reset Password
               </button>
             </div> */}
-          {/* </div> */}
+          </div>
+        </div>
         </div>
       </div>
      </div>
