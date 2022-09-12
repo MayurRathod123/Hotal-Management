@@ -2,9 +2,9 @@ import React from 'react'
 import {Navigate, Route, Routes, Outlet} from 'react-router-dom'
 import {PageLink, PageTitle} from '../../../_metronic/layout/core'
 // import {Overview} from './components/Overview'
-import {Settings} from './components/settings/Settings'
+// import {Settings} from './components/settings/Settings'
 import {AccountHeader} from './AccountHeader'
-import { ResetPassword } from './components/ResetPassword'
+import { ResetPassword } from './ResetPassword'
 
 const accountBreadCrumbs: Array<PageLink> = [
   {

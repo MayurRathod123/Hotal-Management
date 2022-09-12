@@ -2,9 +2,8 @@
 import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-import { resetPassword } from '../../auth/core/_requests'
-import { IUpdatePassword, updatePassword} from './settings/SettingsModel'
-import { ID } from '../../../../_metronic/helpers'
+import { IUpdatePassword, updatePassword } from './components/settings/SettingsModel'
+import { resetPassword } from '../auth/core/_requests'
 
 const passwordFormValidationSchema = Yup.object().shape({
   oldPassword: Yup.string()
@@ -51,34 +50,35 @@ const passwordFormValidationSchema = Yup.object().shape({
   })
 
   return (
+    <>
     <div className='card mb-5 mb-xl-10'>
-      <div
+      {/* <div
         className='card-header border-0 cursor-pointer'
         role='button'
         data-bs-toggle='collapse'
-        data-bs-target='#kt_account_signin_method'
-      >
-        <div className='card-title m-0'>
+        data-bs-target='#kt_account_signin_method' */}
+       {/* > */}
+        {/* <div className='card-title m-0'>
           <h3 className='fw-bolder m-0'>Reset Password</h3>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
 
       <div id='kt_account_signin_method' className='collapse show'>
         <div className='card-body border-top p-9'>
           <div className='d-flex flex-wrap align-items-center mb-10'>
-            <div id='kt_signin_password' className={' ' + (showPasswordForm && 'd-none')}>
+            {/* <div id='kt_signin_password' className={' ' + (showPasswordForm && 'd-none')}>
               <div className='fs-6 fw-bolder mb-1'>Password</div>
               <div className='fw-bold text-gray-600'>************</div>
-            </div>
+            </div> */}
 
-            <div
+            {/* <div
               id='kt_signin_password_edit'
               className={'flex-row-fluid ' + (!showPasswordForm && 'd-none')}
-            >
+            > */}
               <form
                 onSubmit={formik2.handleSubmit}
                 id='kt_signin_change_password'
-                className='form'
+                className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework'
                 noValidate
               >
                 <div className='row mb-1'>
@@ -172,7 +172,7 @@ const passwordFormValidationSchema = Yup.object().shape({
               </form>
             </div>
 
-            <div
+            {/* <div
               id='kt_signin_password_button'
               className={'ms-auto ' + (showPasswordForm && 'd-none')}
             >
@@ -184,11 +184,12 @@ const passwordFormValidationSchema = Yup.object().shape({
               >
                 Reset Password
               </button>
-            </div>
-          </div>
+            </div> */}
+          {/* </div> */}
         </div>
       </div>
-    </div>
+     </div>
+     </>
   )
 }
 
