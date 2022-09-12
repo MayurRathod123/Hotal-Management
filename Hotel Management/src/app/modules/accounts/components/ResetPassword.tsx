@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-import { IUpdatePassword, IUpdateEmail, updatePassword, updateEmail } from '../SettingsModel'
-import { resetPassword } from '../../../../auth/core/_requests'
-import { useGridLayout } from 'react-table'
+import { resetPassword } from '../../auth/core/_requests'
+import { IUpdatePassword, updatePassword} from './settings/SettingsModel'
+import { ID } from '../../../../_metronic/helpers'
 
 const passwordFormValidationSchema = Yup.object().shape({
   oldPassword: Yup.string()
@@ -22,12 +22,17 @@ const passwordFormValidationSchema = Yup.object().shape({
     .oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
 })
 
-const ResetPassword: React.FC = () => {
+  const ResetPassword: React.FC = () => {
   const [passwordUpdateData, setPasswordUpdateData] = useState<IUpdatePassword>(updatePassword)
-
   const [showPasswordForm, setPasswordForm] = useState<boolean>(false)
-
   const [loading2, setLoading2] = useState(false)
+  const [userId, setUserId] = useState<any>()
+
+  useEffect(()=>{
+    const Id = JSON.parse(localStorage.getItem('kt-auth-react-v') || '');
+    setUserId(Id.userId)
+   },[])
+
   const formik2 = useFormik<IUpdatePassword>({
     initialValues: { ...passwordUpdateData, },
     validationSchema: passwordFormValidationSchema,
@@ -36,10 +41,10 @@ const ResetPassword: React.FC = () => {
       setTimeout(() => {
         resetPassword(
           values.oldPassword,
-          values.newPassword, 
-          values.userId
+          values.newPassword,
+          values.userId = userId
           )
-        setLoading2(false)
+        setLoading2(false)    
         setPasswordForm(false)
       }, 1000)
     },
@@ -80,7 +85,7 @@ const ResetPassword: React.FC = () => {
                   <div className='col-lg-4'>
                     <div className='fv-row mb-0'>
                       <label htmlFor='oldpassword' className='form-label fs-6 fw-bolder mb-3'>
-                        Current Password
+                        Old Password
                       </label>
                       <input
                         type='password'

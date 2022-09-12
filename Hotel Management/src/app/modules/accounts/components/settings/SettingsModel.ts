@@ -27,7 +27,7 @@ export interface IUpdatePassword {
   oldPassword: string
   newPassword: string
   passwordConfirmation: string
-  userId:number
+  userId:ID
 }
 
 export interface IConnectedAccounts {

@@ -190,7 +190,7 @@ const AccountHeader: React.FC = () => {
                 }
                 to='/crafted/account/settings'
               >
-                Settings
+                Reset Password
               </Link>
             </li>
           </ul>

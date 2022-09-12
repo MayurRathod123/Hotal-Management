@@ -4,10 +4,11 @@ import {PageLink, PageTitle} from '../../../_metronic/layout/core'
 // import {Overview} from './components/Overview'
 import {Settings} from './components/settings/Settings'
 import {AccountHeader} from './AccountHeader'
+import { ResetPassword } from './components/ResetPassword'
 
 const accountBreadCrumbs: Array<PageLink> = [
   {
-    title: 'Setting',
+    title: 'ResetPassword',
     path: '/crafted/account/settings',
     isSeparator: false,
     isActive: false,
@@ -44,8 +45,8 @@ const AccountPage: React.FC = () => {
           path='settings'
           element={
             <>
-              <PageTitle breadcrumbs={accountBreadCrumbs}>Settings</PageTitle>
-              <Settings />
+              <PageTitle breadcrumbs={accountBreadCrumbs}>Reset Password</PageTitle>
+              <ResetPassword />
             </>
           }
         />

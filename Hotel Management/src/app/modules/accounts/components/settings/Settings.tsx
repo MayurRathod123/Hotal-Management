@@ -1,5 +1,5 @@
 import React from 'react'
-import { ResetPassword } from './cards/ResetPassword'
+// import { ResetPassword } from './cards/ResetPassword'
 // import {ProfileDetails} from './cards/ProfileDetails'
 // import {ConnectedAccounts} from './cards/ConnectedAccounts'
 // import {EmailPreferences} from './cards/EmailPreferences'
@@ -10,7 +10,7 @@ export function Settings() {
   return (
     <>
       {/* <ProfileDetails /> */}
-      <ResetPassword />
+      {/* <ResetPassword /> */}
       {/* <ConnectedAccounts /> */}
       {/* <EmailPreferences /> */}
       {/* <Notifications /> */}

@@ -76,18 +76,17 @@ const AuthInit: FC<WithChildren> = ({children}) => {
         }
       } catch (error) {
         console.error(error)
-        if (!didRequest.current) {
+        if (!didRequest.current) {  
           logout()
         }
       } finally {
         setShowSplashScreen(false)
       }
-
       return () => (didRequest.current = true)
     }
 
     if (auth && auth.api_token) {
-      requestUser(auth.api_token)
+      requestUser(auth.api_token) 
     } else {
       logout()
       setShowSplashScreen(false)

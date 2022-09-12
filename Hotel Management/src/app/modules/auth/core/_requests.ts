@@ -46,10 +46,10 @@ export function resetPassword(
 	oldPassword:string,
 	newPassword:string,
 	userId:number,) {
-	return axios.post<{ result: boolean }>(RESET_PASSWORD_URL, {
+	return axios.post(RESET_PASSWORD_URL, {
 		oldPassword:oldPassword,
 		newPassword:newPassword,
-		userId:userId,
+		userId :userId
 	});
 }
 
