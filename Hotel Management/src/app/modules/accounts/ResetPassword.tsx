@@ -29,17 +29,17 @@ Toast.fire({
 
 const passwordFormValidationSchema = Yup.object().shape({
   oldPassword: Yup.string()
-    .min(3, 'Minimum 3 symbols')
+    .min(8,'password must contain 8 or more characters with at least one of each: uppercase, lowercase, number and special')
     .max(50, 'Maximum 50 symbols')
-    .required('Password is required'),
+    .required('Old Password is required'),
   newPassword: Yup.string()
-    .min(3, 'Minimum 3 symbols')
+    .min(8,'password must contain 8 or more characters with at least one of each: uppercase, lowercase, number and special')
     .max(50, 'Maximum 50 symbols')
-    .required('Password is required'),
+    .required('New Password is required'),
   passwordConfirmation: Yup.string()
-    .min(3, 'Minimum 3 symbols')
+    .min(8,'password must contain 8 or more characters with at least one of each: uppercase, lowercase, number and special' )
     .max(50, 'Maximum 50 symbols')
-    .required('Password is required')
+    .required('Confirm Password is required')
     .oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
 })
 
@@ -74,7 +74,6 @@ const ResetPassword: React.FC = () => {
               passwordConfirmation:'',
             }})
         }
-        console.log(res, 'responce data')
         setLoading2(false)
       })
         .catch((error) => { console.log(error.message) })
