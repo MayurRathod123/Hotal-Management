@@ -30,15 +30,12 @@ Toast.fire({
 const passwordFormValidationSchema = Yup.object().shape({
   oldPassword: Yup.string()
     .min(8,'password must contain 8 or more characters with at least one of each: uppercase, lowercase, number and special')
-    .max(50, 'Maximum 50 symbols')
     .required('Old Password is required'),
   newPassword: Yup.string()
     .min(8,'password must contain 8 or more characters with at least one of each: uppercase, lowercase, number and special')
-    .max(50, 'Maximum 50 symbols')
     .required('New Password is required'),
   passwordConfirmation: Yup.string()
     .min(8,'password must contain 8 or more characters with at least one of each: uppercase, lowercase, number and special' )
-    .max(50, 'Maximum 50 symbols')
     .required('Confirm Password is required')
     .oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
 })
@@ -46,7 +43,7 @@ const passwordFormValidationSchema = Yup.object().shape({
 const ResetPassword: React.FC = () => {
   const [passwordUpdateData, setPasswordUpdateData] = useState<IUpdatePassword>(updatePassword)
   const [showPasswordForm, setPasswordForm] = useState<boolean>(false)
-  const [loading2, setLoading2] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [userId, setUserId] = useState<any>()
 
   useEffect(() => {
@@ -54,11 +51,11 @@ const ResetPassword: React.FC = () => {
     setUserId(Id.userId)
   }, [])
 
-  const formik2 = useFormik<IUpdatePassword>({
+  const formik = useFormik<IUpdatePassword>({
     initialValues: { ...passwordUpdateData, },
     validationSchema: passwordFormValidationSchema,
     onSubmit: (values, { resetForm, setSubmitting }) => {
-      setLoading2(true)
+      setLoading(true)
       resetPassword(
         values.oldPassword,
         values.newPassword,
@@ -74,7 +71,7 @@ const ResetPassword: React.FC = () => {
               passwordConfirmation:'',
             }})
         }
-        setLoading2(false)
+        setLoading(false)
       })
         .catch((error) => { console.log(error.message) })
     },
@@ -86,7 +83,7 @@ const ResetPassword: React.FC = () => {
         className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework'
         noValidate
         id='kt_login_password_reset_form'
-        onSubmit={formik2.handleSubmit}
+        onSubmit={formik.handleSubmit}
       >
         <div className='text-center mb-10'>
           {/* begin::Title */}
@@ -106,19 +103,19 @@ const ResetPassword: React.FC = () => {
             id='oldpassword'
             placeholder=''
             autoComplete='off'
-            {...formik2.getFieldProps('oldPassword')}
+            {...formik.getFieldProps('oldPassword')}
             className={clsx(
               'form-control form-control-lg form-control-solid',
-              { 'is-invalid': formik2.touched.oldPassword && formik2.errors.oldPassword },
+              { 'is-invalid': formik.touched.oldPassword && formik.errors.oldPassword },
               {
-                'is-valid': formik2.touched.oldPassword && !formik2.errors.oldPassword,
+                'is-valid': formik.touched.oldPassword && !formik.errors.oldPassword,
               }
             )}
           />
-          {formik2.touched.oldPassword && formik2.errors.oldPassword && (
+          {formik.touched.oldPassword && formik.errors.oldPassword && (
             <div className='fv-plugins-message-container'>
               <div className='fv-help-block'>
-                <span role='alert'>{formik2.errors.oldPassword}</span>
+                <span role='alert'>{formik.errors.oldPassword}</span>
               </div>
             </div>
           )}
@@ -131,19 +128,19 @@ const ResetPassword: React.FC = () => {
             id='newpassword'
             placeholder=''
             autoComplete='off'
-            {...formik2.getFieldProps('newPassword')}
+            {...formik.getFieldProps('newPassword')}
             className={clsx(
               'form-control form-control-lg form-control-solid',
-              { 'is-invalid': formik2.touched.newPassword && formik2.errors.newPassword },
+              { 'is-invalid': formik.touched.newPassword && formik.errors.newPassword },
               {
-                'is-valid': formik2.touched.newPassword && !formik2.errors.newPassword,
+                'is-valid': formik.touched.newPassword && !formik.errors.newPassword,
               }
             )}
           />
-          {formik2.touched.newPassword && formik2.errors.newPassword && (
+          {formik.touched.newPassword && formik.errors.newPassword && (
             <div className='fv-plugins-message-container'>
               <div className='fv-help-block'>
-                <span role='alert'>{formik2.errors.newPassword}</span>
+                <span role='alert'>{formik.errors.newPassword}</span>
               </div>
             </div>
           )}
@@ -156,19 +153,19 @@ const ResetPassword: React.FC = () => {
             id='confirmpassword'
             placeholder=''
             autoComplete='off'
-            {...formik2.getFieldProps('passwordConfirmation')}
+            {...formik.getFieldProps('passwordConfirmation')}
             className={clsx(
               'form-control form-control-lg form-control-solid',
-              { 'is-invalid': formik2.touched.passwordConfirmation && formik2.errors.passwordConfirmation },
+              { 'is-invalid': formik.touched.passwordConfirmation && formik.errors.passwordConfirmation },
               {
-                'is-valid': formik2.touched.passwordConfirmation && !formik2.errors.passwordConfirmation,
+                'is-valid': formik.touched.passwordConfirmation && !formik.errors.passwordConfirmation,
               }
             )}
           />
-          {formik2.touched.passwordConfirmation && formik2.errors.passwordConfirmation && (
+          {formik.touched.passwordConfirmation && formik.errors.passwordConfirmation && (
             <div className='fv-plugins-message-container'>
               <div className='fv-help-block'>
-                <span role='alert'>{formik2.errors.passwordConfirmation}</span>
+                <span role='alert'>{formik.errors.passwordConfirmation}</span>
               </div>
             </div>
           )}
@@ -184,8 +181,8 @@ const ResetPassword: React.FC = () => {
             type='submit'
             className='btn btn-primary me-2 px-6'
           >
-            {!loading2 && 'Update Password'}
-            {loading2 && (
+            {!loading && 'Update Password'}
+            {loading && (
               <span className='indicator-progress' style={{ display: 'block' }}>
                 Please wait...{' '}
                 <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
