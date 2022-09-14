@@ -35,7 +35,7 @@ const AsideMenuItem: FC<Props & WithChildren> = ({
           </span>
         )}
         {fontIcon && aside.menuIcon === 'font' && <i className={clsx('bi fs-3', fontIcon)}></i>}
-        <span className='menu-title fs-5 mx-5'>{title}</span>
+        <span className='menu-title fs-6 mx-5 px-3'>{title}</span>
       </Link>
       {children}
     </div>
