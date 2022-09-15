@@ -1,4 +1,5 @@
 import {Dispatch, SetStateAction} from 'react'
+import { boolean } from 'yup'
 
 export type ID = undefined | null | number
 
@@ -24,6 +25,7 @@ export type SearchState = {
 export type Response<T> = {
   data?: T
   pager?:any
+  status:number | boolean
   payload?: {
     message?: string
     errors?: {
