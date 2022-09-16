@@ -7,24 +7,30 @@ export function AsideMenuMain() {
 
   return (
     <>
-     <AsideMenuItem
-        icon='/media/icons/new/hotel.svg'    
+      <AsideMenuItem
+        icon='/media/icons/new/hotel.svg'
         to='/hotel-management'
         title='Hotel Management'
       />
 
       <AsideMenuItem
-        icon='/media/icons/new/car.svg'    
+        icon='/media/icons/new/car.svg'
         to='/car-management'
         title='Car Management'
       />
 
 
       <AsideMenuItem
-       icon='/media/icons/new/state.svg'  
+        icon='/media/icons/new/state.svg'
         to='/state-management'
         title='State Management'
       />
-      </>
+
+      <AsideMenuItem
+        icon='/media/icons/new/city.svg'
+        to='/city-management'
+        title='City Management'
+      />
+    </>
   )
 }

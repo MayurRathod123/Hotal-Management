@@ -11,8 +11,8 @@ import { useQueryResponse } from '../core/QueryResponseProvider'
 import { useQuery } from 'react-query'
 import Swal from 'sweetalert2'
 
-const saveHotelToast = ()=>{ 
-    const Toast = Swal.mixin({
+const saveHotelToast = () => {
+  const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
@@ -23,7 +23,7 @@ const saveHotelToast = ()=>{
       toast.addEventListener('mouseleave', Swal.resumeTimer)
     }
   })
-  
+
   Toast.fire({
     icon: 'success',
     title: 'Hotel save successfully',
@@ -176,7 +176,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
                 }
               )}
             >
-              {stateList && stateList.map((value:any, i:number) => <option key={i} value={value.id}>{value.state}</option>)}
+              {stateList && stateList.map((value: any, i: number) => <option key={i} value={value.id}>{value.state}</option>)}
             </select>
           </div>
 
@@ -206,6 +206,58 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
               </div>
             )}
           </div>
+
+          {/* <div className='fv-row mb-7'>
+            <label className='required fw-bold fs-6 mb-2'>Hotel Image</label>
+            <input
+              placeholder='Add Hotel Image'
+              {...formik.getFieldProps('hotel_name')}
+              type='text'
+              name='hotel_name'
+              className={clsx(
+                'form-control form-control-solid mb-3 mb-lg-0',
+                { 'is-invalid': formik.touched.hotel_name && formik.errors.hotel_name },
+                {
+                  'is-valid': formik.touched.hotel_name && !formik.errors.hotel_name,
+                }
+              )}
+              autoComplete='off'
+              disabled={formik.isSubmitting || isUserLoading}
+            />
+            {formik.touched.hotel_name && formik.errors.hotel_name && (
+              <div className='fv-plugins-message-container'>  
+                <div className='fv-help-block'>
+                  <span role='alert'>{formik.errors.hotel_name}</span>
+                </div>
+              </div>
+            )}
+          </div> */}
+
+          {/* <div className='fv-row mb-7'>
+            <label className='required fw-bold fs-6 mb-2'>Hotel Name</label>
+            <input
+              placeholder='Hotel Name'
+              {...formik.getFieldProps('hotel_name')}
+              type='text'
+              name='hotel_name'
+              className={clsx(
+                'form-control form-control-solid mb-3 mb-lg-0',
+                { 'is-invalid': formik.touched.hotel_name && formik.errors.hotel_name },
+                {
+                  'is-valid': formik.touched.hotel_name && !formik.errors.hotel_name,
+                }
+              )}
+              autoComplete='off'
+              disabled={formik.isSubmitting || isUserLoading}
+            />
+            {formik.touched.hotel_name && formik.errors.hotel_name && (
+              <div className='fv-plugins-message-container'>
+                <div className='fv-help-block'>
+                  <span role='alert'>{formik.errors.hotel_name}</span>
+                </div>
+              </div>
+            )}
+          </div> */}
 
 
           <div className='fv-row mb-7'>
@@ -440,7 +492,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
               <option value="7">7 </option>
             </select>
           </div>
-          
+
           <div className='fv-row mb-7'>
             {/* begin::Label */}
             <label className='required fw-bold fs-6 mb-2'>Status</label>

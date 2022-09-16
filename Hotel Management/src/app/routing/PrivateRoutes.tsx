@@ -15,6 +15,8 @@ const PrivateRoutes = () => {
   const HotelPage = lazy(() => import('../modules/apps/hotel management/HotelPage'))
   const CarPage = lazy(() => import('../modules/apps/car management/CarPage'))
   const StatePage = lazy(() => import('../modules/apps/state-manageement/StatePage'))
+  const CityPage = lazy(() => import('../modules/apps/city-management/CityPage'))
+
 
 
 
@@ -74,6 +76,15 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <StatePage />
+            </SuspensedView>
+          }
+        />
+
+        <Route
+          path='/city-management/*'
+          element={
+            <SuspensedView>
+              <CityPage />
             </SuspensedView>
           }
         />
