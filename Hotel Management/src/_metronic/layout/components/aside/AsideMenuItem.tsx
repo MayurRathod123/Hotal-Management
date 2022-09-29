@@ -29,18 +29,13 @@ const AsideMenuItem: FC<Props & WithChildren> = ({
   return (
     <div className='menu-item'>
       <Link className={clsx('menu-link without-sub', {active: isActive})} to={to}>
-        {hasBullet && (
-          <span className='menu-bullet'>
-            <span className='bullet bullet-dot'></span>
-          </span>
-        )}
         {icon && aside.menuIcon === 'svg' && (
-          <span className='menu-icon'>
-            {/* <KTSVG path={icon} className='svg-icon-2' /> */}
+          <span className='menu-icon mx-0'>
+            <KTSVG path={icon} className='svg-icon-3x' />
           </span>
         )}
         {fontIcon && aside.menuIcon === 'font' && <i className={clsx('bi fs-3', fontIcon)}></i>}
-        <span className='menu-title'>{title}</span>
+        <span className='menu-title fs-6 mx-5 px-3'>{title}</span>
       </Link>
       {children}
     </div>

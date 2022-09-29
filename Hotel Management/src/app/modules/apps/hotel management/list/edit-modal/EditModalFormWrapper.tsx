@@ -1,11 +1,11 @@
-import {useQuery} from 'react-query'
-import {EditModalForm} from './EditModalForm'
-import {isNotEmpty, QUERIES} from '../../../../../../_metronic/helpers'
-import {useListView} from '../core/ListViewProvider'
-import {getHotelById,} from '../core/_requests'
+import { useQuery } from 'react-query'
+import { EditModalForm } from './EditModalForm'
+import { isNotEmpty, QUERIES } from '../../../../../../_metronic/helpers'
+import { useListView } from '../core/ListViewProvider'
+import { getHotelById, getRoomType, } from '../core/_requests'
 
 const EditModalFormWrapper = () => {
-  const {itemIdForUpdate, setItemIdForUpdate} = useListView()
+  const { itemIdForUpdate, setItemIdForUpdate } = useListView()
   const enabledQuery: boolean = isNotEmpty(itemIdForUpdate)
   const {
     isLoading,
@@ -25,9 +25,10 @@ const EditModalFormWrapper = () => {
       },
     }
   )
+  
 
   if (!itemIdForUpdate) {
-    return <EditModalForm isUserLoading={isLoading} user={{id: undefined}} />
+    return <EditModalForm isUserLoading={isLoading} user={{ id: undefined, roomtype:[], hotel_image:''}}/>
   }
 
   if (!isLoading && !error && user) {
@@ -37,4 +38,4 @@ const EditModalFormWrapper = () => {
   return null
 }
 
-export {EditModalFormWrapper}
+export { EditModalFormWrapper }

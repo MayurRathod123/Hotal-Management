@@ -1,8 +1,5 @@
 /* eslint-disable react/jsx-no-target-blank */
-import React from 'react'
 import { useIntl } from 'react-intl'
-import { KTSVG } from '../../../helpers'
-import { AsideMenuItemWithSub } from './AsideMenuItemWithSub'
 import { AsideMenuItem } from './AsideMenuItem'
 
 export function AsideMenuMain() {
@@ -10,47 +7,38 @@ export function AsideMenuMain() {
 
   return (
     <>
-      {/* <AsideMenuItem
+
+    <AsideMenuItem
         to='/dashboard'
-        icon='/media/icons/duotune/general/gen025.svg'
+        icon='/media/icons/duotune/art/art002.svg'
         title={intl.formatMessage({id: 'MENU.DASHBOARD'})}
         fontIcon='bi-app-indicator'
-      /> */}
-      <div className='menu-item'>
-        <div className='menu-content pt-8 pb-2'>
-          <span className='menu-section text-muted text-uppercase fs-8 ls-1'>User Management</span>
-        </div>
-      </div>
-      {/* <AsideMenuItemWithSub to='/hotel/' title='Hotel' hasBullet={true}> */}
+     />
+
       <AsideMenuItem
+        icon='/media/icons/new/hotel.svg'
         to='/hotel-management'
-        // icon='/media/icons/products/1.png'
         title='Hotel Management'
-        hasBullet={true}
       />
-      {/* </AsideMenuItemWithSub> */}
 
-      {/* <AsideMenuItemWithSub to='/car/' title='Car' hasBullet={true}> */}
       <AsideMenuItem
+        icon='/media/icons/new/car.svg'
         to='/car-management'
-        // icon='/media/icons/duotune/general/gen025.svg'
         title='Car Management'
-        hasBullet={true}
       />
-      {/* </AsideMenuItemWithSub> */}
 
-      {/* <AsideMenuItemWithSub to='/state/' title='State' hasBullet={true}> */}
+
       <AsideMenuItem
+        icon='/media/icons/new/state.svg'
         to='/state-management'
-        // icon='/media/icons/duotune/general/gen025.svg'
         title='State Management'
-        hasBullet={true}
       />
-      {/* </AsideMenuItemWithSub> */}
 
-      {/* <AsideMenuItemWithSub to='/users/' title='User' hasBullet={true}>
-        <AsideMenuItem to='/user-management' title='User Management' hasBullet={true}/>
-      </AsideMenuItemWithSub> */}
+      <AsideMenuItem
+        icon='/media/icons/new/city.svg'
+        to='/city-management'
+        title='City Management'
+      />
     </>
   )
 }

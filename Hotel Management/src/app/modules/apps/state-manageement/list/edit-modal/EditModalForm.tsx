@@ -1,49 +1,70 @@
-import {FC, useState} from 'react'
+import { FC, useState } from 'react'
 import * as Yup from 'yup'
-import {useFormik} from 'formik'
-import {isNotEmpty} from '../../../../../../_metronic/helpers'
-import {StateDataModel, initial, } from '../core/_models'
+import { useFormik } from 'formik'
+import { isNotEmpty } from '../../../../../../_metronic/helpers'
+import { StateDataModel, initial, } from '../core/_models'
 import clsx from 'clsx'
-import {useListView} from '../core/StateListViewProvider'
-import {ListLoading} from '../components/loading/ListLoading'
-import {createStateData, updateStateData,} from '../core/_requests'
-import {useQueryResponse} from '../core/StateQueryResponseProvider'
+import { useListView } from '../core/StateListViewProvider'
+import { ListLoading } from '../components/loading/ListLoading'
+import { createStateData, updateStateData, } from '../core/_requests'
+import { useQueryResponse } from '../core/StateQueryResponseProvider'
 import Swal from 'sweetalert2'
 
-const saveStateToast = ()=>{ 
-  const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
-  }
-})
 
-Toast.fire({
-  icon: 'success',
-  title: 'State save successfully',
-})
+export const saveStateToast = () => {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+
+  Toast.fire({
+    icon: 'success',
+    title: 'State registered successfully',
+  })
 }
+
+export const updateStateToast = () => {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+
+  Toast.fire({
+    icon: 'success',
+    title: 'State update successfully',
+  })
+}
+
 
 type Props = {
   isUserLoading: boolean
-  user:StateDataModel
+  user: StateDataModel
 }
 
 const editStateSchema = Yup.object().shape({
-    state: Yup.string()
+  state: Yup.string()
     .min(1, 'Minimum 1 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('State Name is required'),
 })
 
-const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
-  const {setItemIdForUpdate} = useListView()
-  const {refetch} = useQueryResponse()
+const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
+  const { setItemIdForUpdate } = useListView()
+  const { refetch } = useQueryResponse()
 
   const [userForEdit] = useState<StateDataModel>({
     ...user,
@@ -63,7 +84,7 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
   const formik = useFormik({
     initialValues: userForEdit,
     validationSchema: editStateSchema,
-    onSubmit: async (values, {setSubmitting}) => {
+    onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true)
       try {
         values.status = status ? 1 : 0
@@ -104,7 +125,7 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
               name='state'
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
-                {'is-invalid': formik.touched.state && formik.errors.state},
+                { 'is-invalid': formik.touched.state && formik.errors.state },
                 {
                   'is-valid': formik.touched.state && !formik.errors.state,
                 }
@@ -120,7 +141,7 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
               </div>
             )}
           </div>
-          
+
           <div className='fv-row mb-7'>
             {/* begin::Label */}
             <label className='required fw-bold fs-6 mb-2'>Status</label>
@@ -162,7 +183,6 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
             className='btn btn-primary'
             data-kt-users-modal-action='submit'
             disabled={isUserLoading || formik.isSubmitting || !formik.isValid || !formik.touched}
-            onClick={saveStateToast}
           >
             <span className='indicator-label'>Submit</span>
             {(formik.isSubmitting || isUserLoading) && (
@@ -180,4 +200,4 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
   )
 }
 
-export {EditModalForm}
+export { EditModalForm }

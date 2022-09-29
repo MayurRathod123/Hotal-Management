@@ -1,14 +1,16 @@
 import React from 'react'
 import {Navigate, Route, Routes, Outlet} from 'react-router-dom'
 import {PageLink, PageTitle} from '../../../_metronic/layout/core'
-import {Overview} from './components/Overview'
-import {Settings} from './components/settings/Settings'
+import { AuthLayout } from '../auth'
+// import {Overview} from './components/Overview'
+// import {Settings} from './components/settings/Settings'
 import {AccountHeader} from './AccountHeader'
+import { ResetPassword } from './ResetPassword'
 
 const accountBreadCrumbs: Array<PageLink> = [
   {
-    title: 'Account',
-    path: '/crafted/account/overview',
+    title: 'ResetPassword',
+    path: '/crafted/account/settings',
     isSeparator: false,
     isActive: false,
   },
@@ -23,6 +25,7 @@ const accountBreadCrumbs: Array<PageLink> = [
 const AccountPage: React.FC = () => {
   return (
     <Routes>
+      <Route element={<AuthLayout />}>
       <Route
         element={
           <>
@@ -32,27 +35,21 @@ const AccountPage: React.FC = () => {
         }
       >
         <Route
-          path='overview'
-          element={
-            <>
-              <PageTitle breadcrumbs={accountBreadCrumbs}>Overview</PageTitle>
-              <Overview />
-            </>
-          }
-        />
-        <Route
           path='settings'
           element={
             <>
-              <PageTitle breadcrumbs={accountBreadCrumbs}>Settings</PageTitle>
-              <Settings />
+              <PageTitle breadcrumbs={accountBreadCrumbs}>Reset Password</PageTitle>
+              <ResetPassword/>
             </>
+
           }
         />
-        <Route index element={<Navigate to='/crafted/account/overview' />} />
+        <Route index element={<Navigate to='/crafted/account/settings' />} />
       </Route>
+      </Route>
+      
     </Routes>
   )
 }
 
-export default AccountPage
+export default AccountPage;

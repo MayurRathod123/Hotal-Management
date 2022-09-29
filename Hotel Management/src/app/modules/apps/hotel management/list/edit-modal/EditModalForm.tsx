@@ -6,13 +6,14 @@ import { HotelDataModel, initial, } from '../core/_models'
 import clsx from 'clsx'
 import { useListView } from '../core/ListViewProvider'
 import { ListLoading } from '../components/loading/ListLoading'
-import { createHotelData, getAllState, updateHotelData, } from '../core/_requests'
+import { createHotelData, getAllState, getRoomType, updateHotelData, } from '../core/_requests'
 import { useQueryResponse } from '../core/QueryResponseProvider'
 import { useQuery } from 'react-query'
 import Swal from 'sweetalert2'
+import Multiselect from 'multiselect-react-dropdown';
 
-const saveHotelToast = ()=>{ 
-    const Toast = Swal.mixin({
+export const saveHotelToast = () => {
+  const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
@@ -23,10 +24,27 @@ const saveHotelToast = ()=>{
       toast.addEventListener('mouseleave', Swal.resumeTimer)
     }
   })
-  
   Toast.fire({
     icon: 'success',
-    title: 'Hotel save successfully',
+    title: 'Hotel registered successfully',
+  })
+}
+
+export const updateHotelToast = () => {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+  Toast.fire({
+    icon: 'success',
+    title: 'Hotel update successfully',
   })
 }
 
@@ -36,15 +54,15 @@ type Props = {
 }
 
 const editHotelSchema = Yup.object().shape({
-  state_id: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(50, 'Maximum 50 symbols')
+  state_id: Yup.number()
     .required('State Name is required'),
 
   hotel_name: Yup.string()
     .min(1, 'Minimum 1 symbols')
-    .max(50, 'Maximum 50 symbols')
     .required('Hotel Name is required'),
+
+  roomtype: Yup.array()
+    .required('Please select a room type'),
 
   price: Yup.number()
     .integer("This field should contain an integer")
@@ -75,7 +93,7 @@ const editHotelSchema = Yup.object().shape({
     .required().typeError("The field must contain a number"),
 
   child_with_mattress: Yup.number()
-    .integer("This field should contain an integer")
+    .integer("This field shouisUserLoadingld contain an integer")
     .required().typeError("The field must contain a number"),
 
   star: Yup.number()
@@ -89,9 +107,11 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
 
   const [userForEdit] = useState<HotelDataModel>({
     ...user,
-    state_id: user.state_id || initial.state_id,
-    hotel_name: user.hotel_name || initial.hotel_name,
-    price: user.price || initial.price,
+    state_id: user.state_id,
+    hotel_name: user.hotel_name,
+    hotel_image: user.hotel_image,
+    roomtype: user.roomtype,
+    price: user.price,
     cp_price: user.cp_price || initial.cp_price,
     map_price: user.map_price || initial.map_price,
     ap_price: user.ap_price || initial.ap_price,
@@ -103,7 +123,18 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
     status: user.status || initial.status,
   })
 
-  const [status, setStatus] = useState(user.status ? true : false || initial.status ? false : true)
+
+  const [status, setStatus] = useState(user.status ? true : false || initial.status ? false : true);
+  const [hotelImage, setHotelImage] = useState('');
+  const [roomType, setroomType] = useState<number[]>(user.roomtype);
+  const [preview, setPreview] = useState(user.hotel_image);
+
+  const onSelect = (_selectedList: any, selectedItem: any) => {
+    setroomType([...roomType, selectedItem.id])
+  }
+  const onRemove = (_selectedList: any, removedItem: any) => {
+    roomType.splice(roomType.indexOf(removedItem.id), 1)
+  }
 
   const cancel = (withRefresh?: boolean) => {
     if (withRefresh) {
@@ -116,13 +147,19 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
     initialValues: userForEdit,
     validationSchema: editHotelSchema,
     onSubmit: async (values, { setSubmitting }) => {
+
+      values.status = status ? 1 : 0
+      values.roomtype = roomType
+      let formData = new FormData();
+      formData.append('data', JSON.stringify(values))
+      formData.append('hotel_image', hotelImage);
       setSubmitting(true)
+
       try {
-        values.status = status ? 1 : 0
         if (isNotEmpty(values.id)) {
-          await updateHotelData(values)
+          await updateHotelData(formData)
         } else {
-          await createHotelData(values)
+          await createHotelData(formData)
         }
       } catch (ex) {
         console.error(ex)
@@ -132,7 +169,6 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
       }
     },
   })
-
   const {
     data: stateList,
   } = useQuery(
@@ -142,7 +178,16 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
     },
     { cacheTime: 0, keepPreviousData: true, refetchOnWindowFocus: false }
   )
-  // console.log(stateList)
+
+  const {
+    data: roomTypes
+  } = useQuery(
+    'getRoomType',
+    () => {
+      return getRoomType()
+    },
+    { cacheTime: 0, keepPreviousData: true, refetchOnWindowFocus: false }
+  )
 
 
   return (
@@ -160,13 +205,11 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
           data-kt-scroll-offset='300px'
         >
 
-
           <div className='fv-row mb-7'>
             <label className='required fw-bold fs-6 mb-2'>State</label>
             <select
               defaultValue={''}
               data-control='select2'
-              data-hide-search='true'
               {...formik.getFieldProps('state_id')}
               className={clsx(
                 'form-select form-select-white form-select-sm',
@@ -175,11 +218,22 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
                   'is-valid': formik.touched.state_id && !formik.errors.state_id,
                 }
               )}
+              autoComplete='off'
+              disabled={formik.isSubmitting || isUserLoading}
             >
-              {stateList && stateList.map((value:any, i:number) => <option key={i} value={value.id}>{value.state}</option>)}
+              <option>select state</option>
+              {stateList && stateList.map((value: any, i: number) =>
+                <option key={i} value={value.id}>{value.state}</option>
+              )}
             </select>
+            {formik.touched.state_id && formik.errors.state_id && (
+              <div className='fv-plugins-message-container'>
+                <div className='fv-help-block'>
+                  <span role='alert'>{formik.errors.state_id}</span>
+                </div>
+              </div>
+            )}
           </div>
-
 
           <div className='fv-row mb-7'>
             <label className='required fw-bold fs-6 mb-2'>Hotel Name</label>
@@ -209,12 +263,69 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
 
 
           <div className='fv-row mb-7'>
+            <label className='fw-bold fs-6 mb-2'>Hotel Image</label>
+            <div>
+              <input
+                type='file'
+                id='file'
+                name='hotel_image'
+                accept='image/*'
+                onChange={
+                  (e: any) => {
+                    console.log(e.target)
+                    let file = e.target.files[0];
+                    let reader: any = new FileReader()
+                    let url = reader.readAsDataURL(file)
+                    reader.onloadend = (e: any) => {
+                      setPreview(reader.result)
+                    }
+                    setHotelImage(e.target.files[0]);
+                  }}
+              />
+              {
+                preview && preview.length > 0 ?
+                  < img src={preview} width={150} height={150} className='mx-7' /> : null
+              }
+            </div>
+          </div>
+
+
+
+          <div className='fv-row mb-7' >
+            <label htmlFor= "" className='required fw-bold fs-6 mb-2'>Hotel Room Type</label>
+            <Multiselect
+              options={roomTypes}
+              onSelect={onSelect}
+              onRemove={onRemove}
+              displayValue="roomtype"
+              showCheckbox={true}
+              showArrow={true}
+              className={clsx(
+                { 'is-invalid': formik.touched.roomtype && formik.errors.roomtype },
+                {
+                  'is-valid': formik.touched.roomtype && !formik.errors.roomtype,
+                }
+              )}
+            />
+            {formik.touched.roomtype && formik.errors.roomtype && roomType.length !>= 1 ? (
+              <div className='fv-plugins-message-container'>
+                <div className='fv-help-block'>
+                  <span role='alert'>Please select a roomType</span>
+                </div>
+              </div>
+            ) : null}
+          </div>
+
+
+
+          <div className='fv-row mb-7'>
             <label className='required fw-bold fs-6 mb-2'>Price</label>
             <input
               placeholder='Price'
               {...formik.getFieldProps('price')}
               type='number'
               name='price'
+              accept='number/*'
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
                 { 'is-invalid': formik.touched.price && formik.errors.price },
@@ -440,7 +551,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
               <option value="7">7 </option>
             </select>
           </div>
-          
+
           <div className='fv-row mb-7'>
             {/* begin::Label */}
             <label className='required fw-bold fs-6 mb-2'>Status</label>
@@ -482,7 +593,6 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
             className='btn btn-primary'
             data-kt-users-modal-action='submit'
             disabled={isUserLoading || formik.isSubmitting || !formik.isValid || !formik.touched}
-            onClick={saveHotelToast}
           >
             <span className='indicator-label'>Submit</span>
             {(formik.isSubmitting || isUserLoading) && (

@@ -1,5 +1,4 @@
 import {Dispatch, SetStateAction} from 'react'
-
 export type ID = undefined | null | number
 
 export type PaginationState = {
@@ -24,6 +23,7 @@ export type SearchState = {
 export type Response<T> = {
   data?: T
   pager?:any
+  status:number | boolean
   payload?: {
     message?: string
     errors?: {

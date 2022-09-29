@@ -44,6 +44,7 @@ export interface UserSocialNetworksModel {
 }
 
 export interface UserModel {
+  email: string
   userId?: number
   userName?: string
   password?: string | undefined
