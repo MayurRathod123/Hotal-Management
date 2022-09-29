@@ -18,8 +18,20 @@ const tableColumns: ReadonlyArray<Column<User>> = [
     Cell: ({...props}) => <p>{props.data[props.row.index].hotel_name}</p>,
   },
   {
+    Header: (props) => <CustomHeader tableProps={props} title='Hotel Image' className='min-w-125px' />,
+    id: 'hotel_image',
+    // Cell: ({...props}) => <p>{props.data[props.row.index].hotel_image}</p>,
+    Cell: ({...props}) => <img src={props.data[props.row.index].hotel_image} width={60}/>,
+    // Cell: ({...props}) => console.log(props),
+  },
+  {
+    Header: (props) => <CustomHeader tableProps={props} title='Hotel Room Type' className='min-w-125px' />,
+    id: 'room_type',
+    Cell: ({...props}) => <p>{props.data[props.row.index].room_type}</p>,
+  },
+  {
     Header: (props) => <CustomHeader tableProps={props} title='Price' className='min-w-125px' />,
-    id: 'price',
+    id: 'price',  
     Cell: ({...props}) => <p>{props.data[props.row.index].price}</p>,
   },
   {

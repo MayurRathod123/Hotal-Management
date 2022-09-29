@@ -1,60 +1,77 @@
-import {FC, useState} from 'react'
+import { FC, useState } from 'react'
 import * as Yup from 'yup'
-import {useFormik} from 'formik'
-import {isNotEmpty} from '../../../../../../_metronic/helpers'
-import {CityDataModel, initial, } from '../core/_models'
+import { useFormik } from 'formik'
+import { isNotEmpty } from '../../../../../../_metronic/helpers'
+import { CityDataModel, initial, } from '../core/_models'
 import clsx from 'clsx'
-import {useListView} from '../core/CityListViewProvider'
-import {ListLoading} from '../components/loading/ListLoading'
-import {createCityData, getAllState, updateCityData,} from '../core/_requests'
-import {useQueryResponse} from '../core/CityQueryResponseProvider'
+import { useListView } from '../core/CityListViewProvider'
+import { ListLoading } from '../components/loading/ListLoading'
+import { createCityData, getAllState, updateCityData, } from '../core/_requests'
+import { useQueryResponse } from '../core/CityQueryResponseProvider'
 import Swal from 'sweetalert2'
 import { useQuery } from 'react-query'
 
-const saveToast = ()=>{ 
+export const saveCityToast = () => {
   const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
-  }
-})
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+  Toast.fire({
+    icon: 'success',
+    title: 'City registered successfully',
+  })
+}
 
-Toast.fire({
-  icon: 'success',
-  title: 'City save successfully',
-})
+export const updateCityToast = () => {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+  Toast.fire({
+    icon: 'success',
+    title: 'City update successfully',
+  })
 }
 
 type Props = {
   isUserLoading: boolean
-  user:CityDataModel
+  user: CityDataModel
 }
 
 const editCitySchema = Yup.object().shape({
-    state_id: Yup.string()
+  state_id: Yup.string()
     .min(1, 'Minimum 1 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('State Name is required'),
 
-    city_name: Yup.string()
+  city: Yup.string()
     .min(1, 'Minimum 1 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('City Name is required'),
 })
 
-const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
-  const {setItemIdForUpdate} = useListView()
-  const {refetch} = useQueryResponse()
+const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
+  const { setItemIdForUpdate } = useListView()
+  const { refetch } = useQueryResponse()
 
   const [userForEdit] = useState<CityDataModel>({
     ...user,
     state_id: user.state_id || initial.state_id,
-    city_name: user.city_name || initial.city_name,
+    city: user.city || initial.city,
     status: user.status || initial.status,
   })
 
@@ -70,7 +87,7 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
   const formik = useFormik({
     initialValues: userForEdit,
     validationSchema: editCitySchema,
-    onSubmit: async (values, {setSubmitting}) => {
+    onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true)
       try {
         values.status = status ? 1 : 0
@@ -98,7 +115,6 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
     },
     { cacheTime: 0, keepPreviousData: true, refetchOnWindowFocus: false }
   )
-  // console.log(stateList)
 
   return (
     <>
@@ -116,7 +132,7 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
         >
 
 
-         <div className='fv-row mb-7'>
+          <div className='fv-row mb-7'>
             <label className='required fw-bold fs-6 mb-2'>State</label>
             <select
               defaultValue={''}
@@ -131,33 +147,32 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
                 }
               )}
             >
-              {stateList && stateList.map((value:any, i:number) => <option key={i} value={value.id}>{value.state}</option>)}
+              {stateList && stateList.map((value: any, i: number) => <option key={i} value={value.id}>{value.state}</option>)}
             </select>
           </div>
-          
-          
+
 
           <div className='fv-row mb-7'>
             <label className='required fw-bold fs-6 mb-2'>City Name</label>
             <input
               placeholder='City Name'
-              {...formik.getFieldProps('city_name')}
+              {...formik.getFieldProps('city')}
               type='text'
-              name='city_name'
+              name='city'
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
-                { 'is-invalid': formik.touched.city_name && formik.errors.city_name },
+                { 'is-invalid': formik.touched.city && formik.errors.city },
                 {
-                  'is-valid': formik.touched.city_name && !formik.errors.city_name,
+                  'is-valid': formik.touched.city && !formik.errors.city,
                 }
               )}
               autoComplete='off'
               disabled={formik.isSubmitting || isUserLoading}
             />
-            {formik.touched.city_name && formik.errors.city_name && (
+            {formik.touched.city && formik.errors.city && (
               <div className='fv-plugins-message-container'>
                 <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.city_name}</span>
+                  <span role='alert'>{formik.errors.city}</span>
                 </div>
               </div>
             )}
@@ -204,7 +219,6 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
             className='btn btn-primary'
             data-kt-users-modal-action='submit'
             disabled={isUserLoading || formik.isSubmitting || !formik.isValid || !formik.touched}
-            onClick={saveToast}
           >
             <span className='indicator-label'>Submit</span>
             {(formik.isSubmitting || isUserLoading) && (
@@ -222,4 +236,4 @@ const EditModalForm: FC<Props> = ({user, isUserLoading}) => {
   )
 }
 
-export {EditModalForm}
+export { EditModalForm }

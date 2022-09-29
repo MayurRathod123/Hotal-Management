@@ -7,6 +7,14 @@ export function AsideMenuMain() {
 
   return (
     <>
+
+    <AsideMenuItem
+        to='/dashboard'
+        icon='/media/icons/duotune/art/art002.svg'
+        title={intl.formatMessage({id: 'MENU.DASHBOARD'})}
+        fontIcon='bi-app-indicator'
+     />
+
       <AsideMenuItem
         icon='/media/icons/new/hotel.svg'
         to='/hotel-management'

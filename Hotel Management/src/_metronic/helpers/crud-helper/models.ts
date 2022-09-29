@@ -1,6 +1,4 @@
 import {Dispatch, SetStateAction} from 'react'
-import { boolean } from 'yup'
-
 export type ID = undefined | null | number
 
 export type PaginationState = {

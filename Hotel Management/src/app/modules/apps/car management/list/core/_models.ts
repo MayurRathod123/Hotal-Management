@@ -1,8 +1,8 @@
 import {ID,Response} from '../../../../../../_metronic/helpers'
 export type CarDataModel = {
   id?: ID
-  name?: String
-  price:number
+  name?: string
+  price?:number
   status?:number
   sic_charge?:number
   pvt_charge?:number

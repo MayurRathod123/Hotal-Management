@@ -87,7 +87,6 @@ const ActionsCell: FC<Props> = ({id}) => {
           <a
             className='menu-link px-3'
             data-kt-users-table-filter='delete_row'
-            // onClick={async () => await deleteItem.mutateAsync()}
             onClick={deleteItemData}
           >
             Delete

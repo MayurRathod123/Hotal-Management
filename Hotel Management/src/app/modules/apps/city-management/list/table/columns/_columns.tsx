@@ -7,13 +7,13 @@ import {User} from '../../core/_models'
 const tableColumns: ReadonlyArray<Column<User>> = [
    {
     Header: (props) => <CustomHeader tableProps={props} title='State Name' className='min-w-125px' />,
-    id: 'state_id',
-    Cell: ({...props}) => <p>{props.data[props.row.index].state_id}</p>,
+    id: 'state',
+    Cell: ({...props}) => <p>{props.data[props.row.index].state}</p>,
   },
   {
     Header: (props) => <CustomHeader tableProps={props} title='City Name' className='min-w-125px' />,
-    id: 'city_name',
-    Cell: ({...props}) => <p>{props.data[props.row.index].city_name}</p>,
+    id: 'city',
+    Cell: ({...props}) => <p>{props.data[props.row.index].city}</p>,
   },
   {
     Header: (props) => <CustomHeader tableProps={props} title='status' className='min-w-125px' />,
