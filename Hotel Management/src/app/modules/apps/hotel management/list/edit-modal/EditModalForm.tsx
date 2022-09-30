@@ -60,7 +60,6 @@ const editHotelSchema = Yup.object().shape({
   hotel_name: Yup.string()
     .min(1, 'Minimum 1 symbols')
     .required('Hotel Name is required'),
-
   
   price: Yup.number()
     .integer("This field should contain an integer")
@@ -220,9 +219,9 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
               {...formik.getFieldProps('state_id')}
               className={clsx(
                 'form-select form-select-white form-select-sm',
-                { 'is-invalid': formik.touched.state_id && formik.errors.state_id },
+                // { 'is-invalid': formik.touched.state_id && formik.errors.state_id },
                 {
-                  'is-valid': formik.touched.state_id && !formik.errors.state_id,
+                  // 'is-valid': formik.touched.state_id && !formik.errors.state_id,
                 }
               )}
               autoComplete='off'
@@ -268,7 +267,6 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
             )}
           </div>
 
-
           <div className='fv-row mb-7'>
             <label className='fw-bold fs-6 mb-2'>Hotel Image</label>
             <div>
@@ -296,8 +294,6 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
             </div>
           </div>
 
-
-
           <div className='fv-row mb-7' >
             <label htmlFor= "" className='required fw-bold fs-6 mb-2'>Hotel Room Type</label>
             <Multiselect
@@ -317,13 +313,13 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
                 }
               )}
             />
-            {formik.touched.roomtype && formik.errors.roomtype &&(
+            {roomType && roomType.length <= 0 ?(
               <div className='fv-plugins-message-container'>
                 <div className='fv-help-block'>
                   <span role='alert'>Please select a roomType</span>
                 </div>
               </div>
-            )}
+            ) : ''}
           </div>
 
 
