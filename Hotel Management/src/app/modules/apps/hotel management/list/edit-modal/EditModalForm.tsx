@@ -61,9 +61,7 @@ const editHotelSchema = Yup.object().shape({
     .min(1, 'Minimum 1 symbols')
     .required('Hotel Name is required'),
 
-  roomtype: Yup.array()
-    .required('Please select a room type'),
-
+  
   price: Yup.number()
     .integer("This field should contain an integer")
     .required().typeError("The field must contain a number"),
@@ -123,11 +121,11 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
     status: user.status || initial.status,
   })
 
-
   const [status, setStatus] = useState(user.status ? true : false || initial.status ? false : true);
   const [hotelImage, setHotelImage] = useState('');
   const [roomType, setroomType] = useState<number[]>(user.roomtype);
   const [preview, setPreview] = useState(user.hotel_image);
+  const selectedValue:any =  [ ]
 
   const onSelect = (_selectedList: any, selectedItem: any) => {
     setroomType([...roomType, selectedItem.id])
@@ -189,6 +187,15 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
     { cacheTime: 0, keepPreviousData: true, refetchOnWindowFocus: false }
   )
 
+  if(roomTypes && roomTypes.length > 0 && roomType && roomType.length > 0){
+    roomTypes.forEach((item:any)=>{ 
+      roomType.forEach((id)=>{
+          if(item.id == id ){    
+            selectedValue.push(item)
+          }
+      })   
+    })  
+  }
 
   return (
     <>
@@ -295,11 +302,14 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
             <label htmlFor= "" className='required fw-bold fs-6 mb-2'>Hotel Room Type</label>
             <Multiselect
               options={roomTypes}
+              placeholder={'Select a room type'}
+              hideSelectedList={true} 
               onSelect={onSelect}
               onRemove={onRemove}
               displayValue="roomtype"
               showCheckbox={true}
               showArrow={true}
+              selectedValues={selectedValue}
               className={clsx(
                 { 'is-invalid': formik.touched.roomtype && formik.errors.roomtype },
                 {
@@ -307,13 +317,13 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
                 }
               )}
             />
-            {formik.touched.roomtype && formik.errors.roomtype && roomType.length !>= 1 ? (
+            {formik.touched.roomtype && formik.errors.roomtype &&(
               <div className='fv-plugins-message-container'>
                 <div className='fv-help-block'>
                   <span role='alert'>Please select a roomType</span>
                 </div>
               </div>
-            ) : null}
+            )}
           </div>
 
 
