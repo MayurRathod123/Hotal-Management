@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { isNotEmpty } from '../../../../../../_metronic/helpers'
@@ -58,9 +58,8 @@ const editHotelSchema = Yup.object().shape({
     .required('State Name is required'),
 
   hotel_name: Yup.string()
-    .min(1, 'Minimum 1 symbols')
     .required('Hotel Name is required'),
-  
+
   price: Yup.number()
     .integer("This field should contain an integer")
     .required().typeError("The field must contain a number"),
@@ -124,7 +123,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
   const [hotelImage, setHotelImage] = useState('');
   const [roomType, setroomType] = useState<number[]>(user.roomtype);
   const [preview, setPreview] = useState(user.hotel_image);
-  const selectedValue:any =  [ ]
+  const selectedValue: any = []
 
   const onSelect = (_selectedList: any, selectedItem: any) => {
     setroomType([...roomType, selectedItem.id])
@@ -140,11 +139,16 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
     setItemIdForUpdate(undefined)
   }
 
+  console.log('roomtype', roomType)
+
   const formik = useFormik({
     initialValues: userForEdit,
     validationSchema: editHotelSchema,
     onSubmit: async (values, { setSubmitting }) => {
-
+      if(roomType.length == 0){
+        alert('Please select a room type')
+        return 
+      }
       values.status = status ? 1 : 0
       values.roomtype = roomType
       let formData = new FormData();
@@ -186,14 +190,14 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
     { cacheTime: 0, keepPreviousData: true, refetchOnWindowFocus: false }
   )
 
-  if(roomTypes && roomTypes.length > 0 && roomType && roomType.length > 0){
-    roomTypes.forEach((item:any)=>{ 
-      roomType.forEach((id)=>{
-          if(item.id == id ){    
-            selectedValue.push(item)
-          }
-      })   
-    })  
+  if (roomTypes && roomTypes.length > 0 && roomType && roomType.length > 0) {
+    roomTypes.forEach((item: any) => {
+      roomType.forEach((id) => {
+        if (item.id == id) {
+          selectedValue.push(item)
+        }
+      })
+    })
   }
 
   return (
@@ -219,9 +223,9 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
               {...formik.getFieldProps('state_id')}
               className={clsx(
                 'form-select form-select-white form-select-sm',
-                // { 'is-invalid': formik.touched.state_id && formik.errors.state_id },
+                { 'is-invalid': formik.touched.state_id && formik.errors.state_id },
                 {
-                  // 'is-valid': formik.touched.state_id && !formik.errors.state_id,
+                  'is-valid': formik.touched.state_id && !formik.errors.state_id,
                 }
               )}
               autoComplete='off'
@@ -295,34 +299,26 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
           </div>
 
           <div className='fv-row mb-7' >
-            <label htmlFor= "" className='required fw-bold fs-6 mb-2'>Hotel Room Type</label>
+            <label htmlFor="" className='required fw-bold fs-6 mb-2'>Hotel Room Type</label>
             <Multiselect
               options={roomTypes}
               placeholder={'Select a room type'}
-              hideSelectedList={true} 
+              hideSelectedList={true}
               onSelect={onSelect}
               onRemove={onRemove}
               displayValue="roomtype"
               showCheckbox={true}
               showArrow={true}
               selectedValues={selectedValue}
-              className={clsx(
-                { 'is-invalid': formik.touched.roomtype && formik.errors.roomtype },
-                {
-                  'is-valid': formik.touched.roomtype && !formik.errors.roomtype,
-                }
-              )}
             />
-            {roomType && roomType.length <= 0 ?(
+            {roomType.length == 0 && (
               <div className='fv-plugins-message-container'>
                 <div className='fv-help-block'>
-                  <span role='alert'>Please select a roomType</span>
+                <span role='alert'>Please select a room type</span>
                 </div>
               </div>
-            ) : ''}
+            )}
           </div>
-
-
 
           <div className='fv-row mb-7'>
             <label className='required fw-bold fs-6 mb-2'>Price</label>
@@ -352,7 +348,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
           </div>
 
           <div className='fv-row mb-7'>
-            <label className='required fw-bold fs-6 mb-2'> CP Price</label>
+            <label className=' fw-bold fs-6 mb-2'> CP Price</label>
             <input
               placeholder='CP Price'
               {...formik.getFieldProps('cp_price')}
@@ -378,7 +374,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
           </div>
 
           <div className='fv-row mb-7'>
-            <label className='required fw-bold fs-6 mb-2'>MAP Price</label>
+            <label className=' fw-bold fs-6 mb-2'>MAP Price</label>
             <input
               placeholder='MAP Price'
               {...formik.getFieldProps('map_price')}
@@ -404,7 +400,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
           </div>
 
           <div className='fv-row mb-7'>
-            <label className='required fw-bold fs-6 mb-2'>AP Price</label>
+            <label className=' fw-bold fs-6 mb-2'>AP Price</label>
             <input
               placeholder='AP Price'
               {...formik.getFieldProps('ap_price')}
@@ -430,7 +426,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
           </div>
 
           <div className='fv-row mb-7'>
-            <label className='required fw-bold fs-6 mb-2'>Pickup Price</label>
+            <label className=' fw-bold fs-6 mb-2'>Pickup Price</label>
             <input
               placeholder='Pickup Price'
               {...formik.getFieldProps('pickup_price')}
@@ -456,7 +452,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
           </div>
 
           <div className='fv-row mb-7'>
-            <label className='required fw-bold fs-6 mb-2'>Drop Price</label>
+            <label className=' fw-bold fs-6 mb-2'>Drop Price</label>
             <input
               placeholder='Drop Price'
               {...formik.getFieldProps('drop_price')}
@@ -482,7 +478,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
           </div>
 
           <div className='fv-row mb-7'>
-            <label className='required fw-bold fs-6 mb-2'>Extra Adult With Mattress</label>
+            <label className=' fw-bold fs-6 mb-2'>Extra Adult With Mattress</label>
             <input
               placeholder='Extra Adult With Mattress'
               {...formik.getFieldProps('adult_with_mattress')}
@@ -508,7 +504,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
           </div>
 
           <div className='fv-row mb-7'>
-            <label className='required fw-bold fs-6 mb-2'>Extra Child Without Mattress</label>
+            <label className=' fw-bold fs-6 mb-2'>Extra Child Without Mattress</label>
             <input
               placeholder='Extra Child Without Mattress'
               {...formik.getFieldProps('child_with_mattress')}
@@ -534,7 +530,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
           </div>
 
           <div className='fv-row mb-7'>
-            <label className='required fw-bold fs-6 mb-2'>Star</label>
+            <label className=' fw-bold fs-6 mb-2'>Star</label>
             <select
               defaultValue=''
               data-control='select2'
@@ -560,7 +556,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
 
           <div className='fv-row mb-7'>
             {/* begin::Label */}
-            <label className='required fw-bold fs-6 mb-2'>Status</label>
+            <label className=' fw-bold fs-6 mb-2'>Status</label>
             {/* end::Label */}
 
             {/* begin::Input */}
@@ -598,7 +594,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
             type='submit'
             className='btn btn-primary'
             data-kt-users-modal-action='submit'
-            disabled={isUserLoading || formik.isSubmitting || !formik.isValid || !formik.touched}
+            disabled={isUserLoading || formik.isSubmitting || !formik.isValid || !formik.touched || roomType.length == 0}
           >
             <span className='indicator-label'>Submit</span>
             {(formik.isSubmitting || isUserLoading) && (

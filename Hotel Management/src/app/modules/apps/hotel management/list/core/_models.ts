@@ -1,4 +1,3 @@
-import { PipsType } from 'nouislider';
 import { ID, Response } from '../../../../../../_metronic/helpers';
 export type HotelDataModel = {
 	id?: ID;
@@ -27,7 +26,7 @@ export const initial: HotelDataModel = {
 	hotel_image:' ',
 	roomtype: [],
 	price: 0,
-	star: 0,
+	star: 2,
 	status: 0,
 	cp_price: 0,
 	map_price: 0,
