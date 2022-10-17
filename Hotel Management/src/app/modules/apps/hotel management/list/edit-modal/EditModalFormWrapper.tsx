@@ -25,10 +25,10 @@ const EditModalFormWrapper = () => {
       },
     }
   )
-  
+
 
   if (!itemIdForUpdate) {
-    return <EditModalForm isUserLoading={isLoading} user={{ id: undefined, roomtype:[], hotel_image:''}}/>
+    return <EditModalForm isUserLoading={isLoading} user={{ id: undefined, roomtype:[], hotel_image:'', meal:[{name:'', price:0}]}}/>
   }
 
   if (!isLoading && !error && user) {

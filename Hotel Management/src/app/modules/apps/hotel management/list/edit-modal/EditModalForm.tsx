@@ -64,18 +64,6 @@ const editHotelSchema = Yup.object().shape({
     .integer("This field should contain an integer")
     .required().typeError("The field must contain a number"),
 
-  cp_price: Yup.number()
-    .integer("This field should contain an integer")
-    .required().typeError("The field must contain a number"),
-
-  map_price: Yup.number()
-    .integer("This field should contain an integer")
-    .required().typeError("The field must contain a number"),
-
-  ap_price: Yup.number()
-    .integer("This field should contain an integer")
-    .required().typeError("The field must contain a number"),
-
   pickup_price: Yup.number()
     .integer("This field should contain an integer")
     .required().typeError("The field must contain a number"),
@@ -107,10 +95,8 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
     hotel_name: user.hotel_name,
     hotel_image: user.hotel_image,
     roomtype: user.roomtype,
+    meal: user.meal || initial.meal,
     price: user.price,
-    cp_price: user.cp_price || initial.cp_price,
-    map_price: user.map_price || initial.map_price,
-    ap_price: user.ap_price || initial.ap_price,
     pickup_price: user.pickup_price || initial.pickup_price,
     drop_price: user.drop_price || initial.drop_price,
     adult_with_mattress: user.adult_with_mattress || initial.adult_with_mattress,
@@ -124,13 +110,33 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
   const [roomType, setroomType] = useState<number[]>(user.roomtype);
   const [preview, setPreview] = useState(user.hotel_image);
   const selectedValue: any = []
+  const [mealPlan, setMealPlan] = useState<any>(user.meal)
 
+  //Meal plan start
+  const handleChange = (e: any, index: number) => {
+    let newMealPlan = [...mealPlan];
+    newMealPlan[index][e.target.name] = e.target.value
+    setMealPlan(newMealPlan);
+  }
+  const AddPlan = () => {
+    setMealPlan([...mealPlan, { name: '', price: 0 }])
+  }
+  const RemovePlan = (index: number) => {
+    let newMealPlan = [...mealPlan];
+    newMealPlan.splice(index, 1);
+    setMealPlan(newMealPlan);
+  }
+  //Meal plan end
+
+
+  //Room type start
   const onSelect = (_selectedList: any, selectedItem: any) => {
     setroomType([...roomType, selectedItem.id])
   }
   const onRemove = (_selectedList: any, removedItem: any) => {
     roomType.splice(roomType.indexOf(removedItem.id), 1)
   }
+  //Room type end
 
   const cancel = (withRefresh?: boolean) => {
     if (withRefresh) {
@@ -139,18 +145,20 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
     setItemIdForUpdate(undefined)
   }
 
-  console.log('roomtype', roomType)
-
+  console.log(userForEdit)
+  console.log(mealPlan)
   const formik = useFormik({
     initialValues: userForEdit,
     validationSchema: editHotelSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      if(roomType.length == 0){
+      if (roomType.length == 0) {
         alert('Please select a room type')
-        return 
+        return
       }
+
       values.status = status ? 1 : 0
       values.roomtype = roomType
+      values.meal = mealPlan
       let formData = new FormData();
       formData.append('data', JSON.stringify(values))
       formData.append('hotel_image', hotelImage);
@@ -303,7 +311,6 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
             <Multiselect
               options={roomTypes}
               placeholder={'Select a room type'}
-              hideSelectedList={true}
               onSelect={onSelect}
               onRemove={onRemove}
               displayValue="roomtype"
@@ -314,7 +321,7 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
             {roomType.length == 0 && (
               <div className='fv-plugins-message-container'>
                 <div className='fv-help-block'>
-                <span role='alert'>Please select a room type</span>
+                  <span role='alert'>Please select a room type</span>
                 </div>
               </div>
             )}
@@ -347,82 +354,54 @@ const EditModalForm: FC<Props> = ({ user, isUserLoading }) => {
             )}
           </div>
 
-          <div className='fv-row mb-7'>
-            <label className=' fw-bold fs-6 mb-2'> CP Price</label>
-            <input
-              placeholder='CP Price'
-              {...formik.getFieldProps('cp_price')}
-              type='number'
-              name='cp_price'
-              className={clsx(
-                'form-control form-control-solid mb-3 mb-lg-0',
-                { 'is-invalid': formik.touched.cp_price && formik.errors.cp_price },
-                {
-                  'is-valid': formik.touched.cp_price && !formik.errors.cp_price,
-                }
-              )}
-              autoComplete='off'
-              disabled={formik.isSubmitting || isUserLoading}
-            />
-            {formik.touched.cp_price && formik.errors.cp_price && (
-              <div className='fv-plugins-message-container'>
-                <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.cp_price}</span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className='fv-row mb-7'>
-            <label className=' fw-bold fs-6 mb-2'>MAP Price</label>
-            <input
-              placeholder='MAP Price'
-              {...formik.getFieldProps('map_price')}
-              type='number'
-              name='map_price'
-              className={clsx(
-                'form-control form-control-solid mb-3 mb-lg-0',
-                { 'is-invalid': formik.touched.map_price && formik.errors.map_price },
-                {
-                  'is-valid': formik.touched.map_price && !formik.errors.map_price,
-                }
-              )}
-              autoComplete='off'
-              disabled={formik.isSubmitting || isUserLoading}
-            />
-            {formik.touched.map_price && formik.errors.map_price && (
-              <div className='fv-plugins-message-container'>
-                <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.map_price}</span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className='fv-row mb-7'>
-            <label className=' fw-bold fs-6 mb-2'>AP Price</label>
-            <input
-              placeholder='AP Price'
-              {...formik.getFieldProps('ap_price')}
-              type='number'
-              name='ap_price'
-              className={clsx(
-                'form-control form-control-solid mb-3 mb-lg-0',
-                { 'is-invalid': formik.touched.ap_price && formik.errors.ap_price },
-                {
-                  'is-valid': formik.touched.ap_price && !formik.errors.ap_price,
-                }
-              )}
-              autoComplete='off'
-              disabled={formik.isSubmitting || isUserLoading}
-            />
-            {formik.touched.ap_price && formik.errors.ap_price && (
-              <div className='fv-plugins-message-container'>
-                <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.ap_price}</span>
-                </div>
-              </div>
-            )}
+          <label className='fw-bold fs-6 mb-2'>Meal Plane</label>
+          <div className="row row-cols-lg-auto g-3 mt-2">
+            {
+              mealPlan && mealPlan.length >= 0 ? (
+                mealPlan.map((item: any, index: number) => {
+                  return (
+                    <div className='row mb-3'>
+                      <div className='col-7 md-2 '>
+                        <label htmlFor='name' className="visually-hidden">Name</label>
+                        <input
+                          className='form-control'
+                          type="text"
+                          placeholder='Enter name'
+                          value={item.name}
+                          name='name'
+                          id='name'
+                          required
+                          onChange={(e) => handleChange(e, index)}
+                        />
+                      </div>
+                      <div className='col-3 md-2'>
+                        <label htmlFor='price' className="visually-hidden">Price</label>
+                        <input
+                          className='form-control'
+                          type='number'
+                          placeholder='price'
+                          value={item.price}
+                          name='price'
+                          id='price'
+                          required
+                          onChange={(e) => handleChange(e, index)}
+                        />
+                      </div>
+                      {
+                        index ?
+                          <div className='col-2'>
+                            <button
+                              className="btn btn-primary btn-block"
+                              type='button'
+                              onClick={() => RemovePlan(index)} > X
+                            </button>
+                          </div> : <div className='col'><button className="btn btn-primary btn-block" type='button' onClick={AddPlan}>+</button></div>
+                      }
+                    </div>
+                  )
+                })
+              ) : null
+            }
           </div>
 
           <div className='fv-row mb-7'>

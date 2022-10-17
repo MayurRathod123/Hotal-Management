@@ -5,12 +5,10 @@ export type HotelDataModel = {
 	hotel_name?: string;
 	hotel_image:string
 	roomtype:number[];
+	meal:[{}];
 	price?: number;
 	star?: number;
 	status?: number;
-	cp_price?: number;
-	map_price?: number;
-	ap_price?: number;
 	pickup_price?: number;
 	drop_price?: number;
 	adult_with_mattress?: number;
@@ -25,12 +23,10 @@ export const initial: HotelDataModel = {
 	hotel_name: ' ',
 	hotel_image:' ',
 	roomtype: [],
+	meal:[{name:'', price:0}],
 	price: 0,
 	star: 2,
 	status: 0,
-	cp_price: 0,
-	map_price: 0,
-	ap_price: 0,
 	pickup_price: 0,
 	drop_price: 0,
 	adult_with_mattress: 0,
